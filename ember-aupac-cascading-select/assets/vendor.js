@@ -144232,7 +144232,6 @@ define('ember-aupac-cascading-select/components/aupac-cascading-select', ['expor
 
     var computed = Ember['default'].computed;
     var observer = Ember['default'].observer;
-    var isNone = Ember['default'].isNone;
 
     var DefaultItem = Ember['default'].Object.extend({
         optionValuePath: 'content.id',

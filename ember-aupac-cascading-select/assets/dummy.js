@@ -118,7 +118,7 @@ define('dummy/ember-aupac-cascading-select/tests/modules/ember-aupac-cascading-s
 
   module('JSHint - modules/ember-aupac-cascading-select/components');
   test('modules/ember-aupac-cascading-select/components/aupac-cascading-select.js should pass jshint', function () {
-    ok(false, 'modules/ember-aupac-cascading-select/components/aupac-cascading-select.js should pass jshint.\nmodules/ember-aupac-cascading-select/components/aupac-cascading-select.js: line 4, col 28, \'isNone\' is defined but never used.\n\n1 error');
+    ok(true, 'modules/ember-aupac-cascading-select/components/aupac-cascading-select.js should pass jshint.');
   });
 
 });
@@ -1213,7 +1213,7 @@ catch(err) {
 if (runningTests) {
   require("dummy/tests/test-helper");
 } else {
-  require("dummy/app")["default"].create({"name":"ember-aupac-cascading-select","version":"1.1.0.910b5775"});
+  require("dummy/app")["default"].create({"name":"ember-aupac-cascading-select","version":"1.1.0.3f854012"});
 }
 
 /* jshint ignore:end */
