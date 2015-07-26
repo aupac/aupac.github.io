@@ -1417,7 +1417,7 @@ catch(err) {
 if (runningTests) {
   require("dummy/tests/test-helper");
 } else {
-  require("dummy/app")["default"].create({"name":"ember-aupac-cascading-select","version":"1.1.0.8270910c"});
+  require("dummy/app")["default"].create({"name":"ember-aupac-cascading-select","version":"1.1.0.15a44fc3"});
 }
 
 /* jshint ignore:end */

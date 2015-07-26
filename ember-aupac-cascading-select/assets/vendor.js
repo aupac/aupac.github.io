@@ -144272,6 +144272,7 @@ define('ember-aupac-cascading-select/components/aupac-cascading-select', ['expor
         parentChanged: observer('parent.selection', function () {
             if (!this.get('isFirstControl')) {
                 this.set('selection', null);
+                this.get('component').sendAction('action', null);
             }
         }),
 
