@@ -93,7 +93,57 @@ define('dummy/controllers/application', ['exports', 'ember'], function (exports,
       }
     }],
 
-    finalSelection: null
+    finalSelection: null,
+
+    //Select X
+    selectXitems: [{
+      content: function content(parent, store) {
+        return store.findAll('manager');
+      },
+      optionValuePath: 'content',
+      extras: {
+        label: 'Manager',
+        width: 'col-xs-2'
+      }
+    }, {
+      content: function content(parent, store) {
+        return store.findAll('sub-manager');
+      },
+      optionValuePath: 'content',
+      extras: {
+        label: 'Sub Manager',
+        width: 'col-xs-2'
+      }
+    }, {
+      content: function content(parent, store) {
+        return store.findAll('employee');
+      },
+      optionValuePath: 'content',
+      extras: {
+        label: 'Employee',
+        width: 'col-xs-2'
+      }
+    }, {
+      content: function content(parent, store) {
+        return store.findAll('task');
+      },
+      optionValuePath: 'content',
+      extras: {
+        label: 'Task',
+        width: 'col-xs-2'
+      }
+    }, {
+      content: function content(parent, store) {
+        return store.findAll('sub-task');
+      },
+      optionValuePath: 'content',
+      extras: {
+        label: 'Sub Task',
+        width: 'col-xs-2'
+      }
+    }],
+
+    finalSelectXSelection: null
 
   });
 
@@ -499,11 +549,70 @@ define('dummy/templates/application', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 4,
+              "line": 9,
               "column": 6
             },
             "end": {
-              "line": 17,
+              "line": 22,
+              "column": 6
+            }
+          },
+          "moduleName": "dummy/templates/application.hbs"
+        },
+        arity: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("          ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          var el2 = dom.createTextNode("\n              ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("label");
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n            ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n          ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element1 = dom.childAt(fragment, [1]);
+          var morphs = new Array(3);
+          morphs[0] = dom.createAttrMorph(element1, 'class');
+          morphs[1] = dom.createMorphAt(dom.childAt(element1, [1]),0,0);
+          morphs[2] = dom.createMorphAt(element1,3,3);
+          return morphs;
+        },
+        statements: [
+          ["attribute","class",["concat",["form-group ",["get","control.extras.width",["loc",[null,[10,35],[10,55]]]]]]],
+          ["content","control.extras.label",["loc",[null,[11,21],[11,45]]]],
+          ["inline","view",["select"],["content",["subexpr","@mut",[["get","control.content",["loc",[null,[13,20],[13,35]]]]],[],[]],"selection",["subexpr","@mut",[["get","control.selection",["loc",[null,[14,22],[14,39]]]]],[],[]],"optionValuePath",["subexpr","@mut",[["get","control.optionValuePath",["loc",[null,[15,28],[15,51]]]]],[],[]],"optionLabelPath",["subexpr","@mut",[["get","control.optionLabelPath",["loc",[null,[16,28],[16,51]]]]],[],[]],"class","form-control","prompt",["subexpr","@mut",[["get","control.prompt",["loc",[null,[18,19],[18,33]]]]],[],[]],"disabled",["subexpr","@mut",[["get","control.disabled",["loc",[null,[19,21],[19,37]]]]],[],[]]],["loc",[null,[12,12],[20,14]]]]
+        ],
+        locals: ["control"],
+        templates: []
+      };
+    }());
+    var child1 = (function() {
+      return {
+        meta: {
+          "revision": "Ember@1.13.5",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 36,
+              "column": 6
+            },
+            "end": {
+              "line": 50,
               "column": 6
             }
           },
@@ -543,9 +652,9 @@ define('dummy/templates/application', ['exports'], function (exports) {
           return morphs;
         },
         statements: [
-          ["attribute","class",["concat",["form-group ",["get","control.extras.width",["loc",[null,[5,35],[5,55]]]]]]],
-          ["content","control.extras.label",["loc",[null,[6,21],[6,45]]]],
-          ["inline","view",["select"],["content",["subexpr","@mut",[["get","control.content",["loc",[null,[8,20],[8,35]]]]],[],[]],"selection",["subexpr","@mut",[["get","control.selection",["loc",[null,[9,22],[9,39]]]]],[],[]],"optionValuePath",["subexpr","@mut",[["get","control.optionValuePath",["loc",[null,[10,28],[10,51]]]]],[],[]],"optionLabelPath",["subexpr","@mut",[["get","control.optionLabelPath",["loc",[null,[11,28],[11,51]]]]],[],[]],"class","form-control","prompt",["subexpr","@mut",[["get","control.prompt",["loc",[null,[13,19],[13,33]]]]],[],[]],"disabled",["subexpr","@mut",[["get","control.disabled",["loc",[null,[14,21],[14,37]]]]],[],[]]],["loc",[null,[7,12],[15,14]]]]
+          ["attribute","class",["concat",["form-group ",["get","control.extras.width",["loc",[null,[37,35],[37,55]]]]]]],
+          ["content","control.extras.label",["loc",[null,[38,21],[38,45]]]],
+          ["inline","x-select",[],["action",["subexpr","action",[["subexpr","mut",[["get","control.selection",["loc",[null,[39,43],[39,60]]]]],[],["loc",[null,[39,38],[39,61]]]]],[],["loc",[null,[39,30],[39,62]]]],"multiple",false,"content",["subexpr","@mut",[["get","control.content",["loc",[null,[41,20],[41,35]]]]],[],[]],"selection",["subexpr","@mut",[["get","control.selection",["loc",[null,[42,24],[42,41]]]]],[],[]],"optionValuePath",["subexpr","@mut",[["get","control.optionValuePath",["loc",[null,[43,28],[43,51]]]]],[],[]],"optionLabelPath",["subexpr","@mut",[["get","control.optionLabelPath",["loc",[null,[44,28],[44,51]]]]],[],[]],"prompt",["subexpr","@mut",[["get","control.prompt",["loc",[null,[45,19],[45,33]]]]],[],[]],"disabled",["subexpr","@mut",[["get","control.disabled",["loc",[null,[46,21],[46,37]]]]],[],[]],"class","form-control"],["loc",[null,[39,12],[48,14]]]]
         ],
         locals: ["control"],
         templates: []
@@ -561,7 +670,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 59,
+            "line": 67,
             "column": 0
           }
         },
@@ -572,6 +681,29 @@ define('dummy/templates/application', ['exports'], function (exports) {
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","well");
+        var el2 = dom.createTextNode("\n    Checkout the controller source code ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("a");
+        dom.setAttribute(el2,"href","https://github.com/aupac/ember-aupac-cascading-select/blob/master/tests/dummy/app/controllers/application.js");
+        var el3 = dom.createTextNode("here");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("br");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    Checkout the template source code ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("a");
+        dom.setAttribute(el2,"href","https://github.com/aupac/ember-aupac-cascading-select/blob/master/tests/dummy/app/templates/application.hbs");
+        var el3 = dom.createTextNode("here");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
         dom.setAttribute(el1,"class","panel panel-default");
         var el2 = dom.createTextNode("\n    ");
@@ -619,23 +751,95 @@ define('dummy/templates/application', ['exports'], function (exports) {
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n\n\n\n");
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","panel panel-default");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","panel-heading");
+        var el3 = dom.createTextNode("Using ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("a");
+        dom.setAttribute(el3,"href","https://github.com/thefrontside/emberx-select");
+        var el4 = dom.createTextNode("emberx-select");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode(" (for ember 2.0 when Ember.Select is removed)");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","panel-body");
+        var el3 = dom.createTextNode("\n\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3,"class","row");
+        var el4 = dom.createTextNode("\n            ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4,"class","col-xs-12");
+        var el5 = dom.createTextNode("\n                * Note: ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("small");
+        var el6 = dom.createTextNode("For this to work I needed to override the optionValuePath to be 'content' instead of 'content.id'");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("br");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n            ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n            ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4,"class","col-xs-12");
+        var el5 = dom.createTextNode("\n                ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("h2");
+        var el6 = dom.createTextNode("You selected : ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createComment("");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n            ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n        ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n\n\n\n\n");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element1 = dom.childAt(fragment, [0, 3]);
-        var morphs = new Array(2);
-        morphs[0] = dom.createMorphAt(element1,1,1);
-        morphs[1] = dom.createMorphAt(dom.childAt(element1, [3, 1, 1]),1,1);
+        var element2 = dom.childAt(fragment, [2, 3]);
+        var element3 = dom.childAt(fragment, [4, 3]);
+        var morphs = new Array(4);
+        morphs[0] = dom.createMorphAt(element2,1,1);
+        morphs[1] = dom.createMorphAt(dom.childAt(element2, [3, 1, 1]),1,1);
+        morphs[2] = dom.createMorphAt(element3,1,1);
+        morphs[3] = dom.createMorphAt(dom.childAt(element3, [3, 3, 1]),1,1);
         return morphs;
       },
       statements: [
-        ["block","aupac-cascading-select",[],["items",["subexpr","@mut",[["get","items",["loc",[null,[4,38],[4,43]]]]],[],[]],"store",["subexpr","@mut",[["get","store",["loc",[null,[4,50],[4,55]]]]],[],[]],"action",["subexpr","action",[["subexpr","mut",[["get","finalSelection",["loc",[null,[4,76],[4,90]]]]],[],["loc",[null,[4,71],[4,91]]]]],[],["loc",[null,[4,63],[4,92]]]]],0,null,["loc",[null,[4,6],[17,33]]]],
-        ["content","finalSelection.name",["loc",[null,[21,35],[21,58]]]]
+        ["block","aupac-cascading-select",[],["items",["subexpr","@mut",[["get","items",["loc",[null,[9,38],[9,43]]]]],[],[]],"store",["subexpr","@mut",[["get","store",["loc",[null,[9,50],[9,55]]]]],[],[]],"action",["subexpr","action",[["subexpr","mut",[["get","finalSelection",["loc",[null,[9,76],[9,90]]]]],[],["loc",[null,[9,71],[9,91]]]]],[],["loc",[null,[9,63],[9,92]]]]],0,null,["loc",[null,[9,6],[22,33]]]],
+        ["content","finalSelection.name",["loc",[null,[26,35],[26,58]]]],
+        ["block","aupac-cascading-select",[],["items",["subexpr","@mut",[["get","selectXitems",["loc",[null,[36,38],[36,50]]]]],[],[]],"store",["subexpr","@mut",[["get","store",["loc",[null,[36,57],[36,62]]]]],[],[]],"action",["subexpr","action",[["subexpr","mut",[["get","finalSelectXSelection",["loc",[null,[36,83],[36,104]]]]],[],["loc",[null,[36,78],[36,105]]]]],[],["loc",[null,[36,70],[36,106]]]]],1,null,["loc",[null,[36,6],[50,33]]]],
+        ["content","finalSelectXSelection.name",["loc",[null,[57,35],[57,65]]]]
       ],
       locals: [],
-      templates: [child0]
+      templates: [child0, child1]
     };
   }()));
 
@@ -1213,7 +1417,7 @@ catch(err) {
 if (runningTests) {
   require("dummy/tests/test-helper");
 } else {
-  require("dummy/app")["default"].create({"name":"ember-aupac-cascading-select","version":"1.1.0.3f854012"});
+  require("dummy/app")["default"].create({"name":"ember-aupac-cascading-select","version":"1.1.0.8270910c"});
 }
 
 /* jshint ignore:end */

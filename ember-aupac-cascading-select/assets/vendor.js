@@ -144232,6 +144232,7 @@ define('ember-aupac-cascading-select/components/aupac-cascading-select', ['expor
 
     var computed = Ember['default'].computed;
     var observer = Ember['default'].observer;
+    var isNone = Ember['default'].isNone;
 
     var DefaultItem = Ember['default'].Object.extend({
         optionValuePath: 'content.id',
@@ -144276,7 +144277,7 @@ define('ember-aupac-cascading-select/components/aupac-cascading-select', ['expor
 
         selectionChanged: observer('selection', function () {
             var selection = this.get('selection');
-            if (this.get('isLastControl')) {
+            if (this.get('isLastControl') && !isNone(selection)) {
                 this.get('component').sendAction('action', selection);
             }
         })
@@ -145733,12 +145734,12 @@ define('emberx-select/components/x-select', ['exports', 'ember'], function (expo
      *
      * @private
      */
-    ensureProperType: Ember['default'].observer('value', function () {
+    ensureProperType: Ember['default'].on('init', Ember['default'].observer('value', function () {
       var value = this.get('value');
       if (value != null && this.get('multiple') && !isArray(value)) {
         throw new Error('x-select multiple=true was set, but value "' + value + '" is not enumerable.');
       }
-    }).on('init'),
+    })),
 
     /**
      * @private
