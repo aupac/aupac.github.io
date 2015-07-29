@@ -72746,7 +72746,7 @@ define('ember-aupac-control/components/aupac-control', ['exports', 'ember', 'emb
       if (!this.get('canShowFeedback')) {
         return;
       }
-      console.log(this.get('status'));
+
       switch (this.get('status')) {
         case 'success':
           return ''; //this.get('feedbackSuccessIcon');
@@ -73039,6 +73039,52 @@ define('ember-aupac-control/templates/components/aupac-control', ['exports'], fu
       };
     }());
     var child2 = (function() {
+      var child0 = (function() {
+        return {
+          isHTMLBars: true,
+          revision: "Ember@1.12.0",
+          blockParams: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          build: function build(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("      ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("span");
+            dom.setAttribute(el1,"class","help-block");
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          render: function render(context, env, contextualElement) {
+            var dom = env.dom;
+            var hooks = env.hooks, content = hooks.content;
+            dom.detectNamespace(contextualElement);
+            var fragment;
+            if (env.useFragmentCache && dom.canClone) {
+              if (this.cachedFragment === null) {
+                fragment = this.build(dom);
+                if (this.hasRendered) {
+                  this.cachedFragment = fragment;
+                } else {
+                  this.hasRendered = true;
+                }
+              }
+              if (this.cachedFragment) {
+                fragment = dom.cloneNode(this.cachedFragment, true);
+              }
+            } else {
+              fragment = this.build(dom);
+            }
+            var morph0 = dom.createMorphAt(dom.childAt(fragment, [1]),0,0);
+            content(env, morph0, context, "helpText");
+            return fragment;
+          }
+        };
+      }());
       return {
         isHTMLBars: true,
         revision: "Ember@1.12.0",
@@ -73051,7 +73097,11 @@ define('ember-aupac-control/templates/components/aupac-control', ['exports'], fu
           dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n  ");
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("  ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("span");
           dom.setAttribute(el1,"class","form-control-feedback");
@@ -73064,7 +73114,7 @@ define('ember-aupac-control/templates/components/aupac-control', ['exports'], fu
         },
         render: function render(context, env, contextualElement) {
           var dom = env.dom;
-          var hooks = env.hooks, content = hooks.content, get = hooks.get, concat = hooks.concat, attribute = hooks.attribute;
+          var hooks = env.hooks, content = hooks.content, get = hooks.get, block = hooks.block, concat = hooks.concat, attribute = hooks.attribute;
           dom.detectNamespace(contextualElement);
           var fragment;
           if (env.useFragmentCache && dom.canClone) {
@@ -73082,10 +73132,12 @@ define('ember-aupac-control/templates/components/aupac-control', ['exports'], fu
           } else {
             fragment = this.build(dom);
           }
-          var element0 = dom.childAt(fragment, [3, 0]);
+          var element0 = dom.childAt(fragment, [5, 0]);
           var morph0 = dom.createMorphAt(fragment,1,1,contextualElement);
+          var morph1 = dom.createMorphAt(fragment,3,3,contextualElement);
           var attrMorph0 = dom.createAttrMorph(element0, 'class');
           content(env, morph0, context, "yield");
+          block(env, morph1, context, "if", [get(env, context, "canShowErrors")], {}, child0, null);
           attribute(env, attrMorph0, element0, "class", concat(env, [get(env, context, "feedbackIcon")]));
           return fragment;
         }
