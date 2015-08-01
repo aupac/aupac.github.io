@@ -51,97 +51,103 @@ define('dummy/controllers/application', ['exports', 'ember'], function (exports,
   exports['default'] = Ember['default'].Controller.extend({
 
     //Bootstrap Styling
-    items: [{
-      content: function content(parent, store) {
-        return store.findAll('manager');
-      },
-      extras: {
-        label: 'Manager',
-        width: 'col-xs-2'
-      }
-    }, {
-      content: function content(parent, store) {
-        return store.findAll('sub-manager');
-      },
-      extras: {
-        label: 'Sub Manager',
-        width: 'col-xs-2'
-      }
-    }, {
-      content: function content(parent, store) {
-        return store.findAll('employee');
-      },
-      extras: {
-        label: 'Employee',
-        width: 'col-xs-2'
-      }
-    }, {
-      content: function content(parent, store) {
-        return store.findAll('task');
-      },
-      extras: {
-        label: 'Task',
-        width: 'col-xs-2'
-      }
-    }, {
-      content: function content(parent, store) {
-        return store.findAll('sub-task');
-      },
-      extras: {
-        label: 'Sub Task',
-        width: 'col-xs-2'
-      }
-    }],
+    items: Ember['default'].computed(function () {
+      var store = this.store;
+      return [{
+        content: function content(parent) {
+          return store.findAll('manager');
+        },
+        extras: {
+          label: 'Manager',
+          width: 'col-xs-2'
+        }
+      }, {
+        content: function content(parent) {
+          return store.findAll('sub-manager');
+        },
+        extras: {
+          label: 'Sub Manager',
+          width: 'col-xs-2'
+        }
+      }, {
+        content: function content(parent) {
+          return store.findAll('employee');
+        },
+        extras: {
+          label: 'Employee',
+          width: 'col-xs-2'
+        }
+      }, {
+        content: function content(parent) {
+          return store.findAll('task');
+        },
+        extras: {
+          label: 'Task',
+          width: 'col-xs-2'
+        }
+      }, {
+        content: function content(parent) {
+          return store.findAll('sub-task');
+        },
+        extras: {
+          label: 'Sub Task',
+          width: 'col-xs-2'
+        }
+      }];
+    }),
 
     finalSelection: null,
 
     //Select X
-    selectXitems: [{
-      content: function content(parent, store) {
-        return store.findAll('manager');
-      },
-      optionValuePath: 'content',
-      extras: {
-        label: 'Manager',
-        width: 'col-xs-2'
-      }
-    }, {
-      content: function content(parent, store) {
-        return store.findAll('sub-manager');
-      },
-      optionValuePath: 'content',
-      extras: {
-        label: 'Sub Manager',
-        width: 'col-xs-2'
-      }
-    }, {
-      content: function content(parent, store) {
-        return store.findAll('employee');
-      },
-      optionValuePath: 'content',
-      extras: {
-        label: 'Employee',
-        width: 'col-xs-2'
-      }
-    }, {
-      content: function content(parent, store) {
-        return store.findAll('task');
-      },
-      optionValuePath: 'content',
-      extras: {
-        label: 'Task',
-        width: 'col-xs-2'
-      }
-    }, {
-      content: function content(parent, store) {
-        return store.findAll('sub-task');
-      },
-      optionValuePath: 'content',
-      extras: {
-        label: 'Sub Task',
-        width: 'col-xs-2'
-      }
-    }],
+    selectXitems: Ember['default'].computed(function () {
+      var store = this.store;
+      return [{
+        content: function content(parent) {
+          return store.findAll('manager');
+        },
+        optionValuePath: 'content',
+        extras: {
+          label: 'Manager',
+          width: 'col-xs-2'
+        }
+      }, {
+        content: function content(parent) {
+          return store.findAll('sub-manager');
+        },
+        optionValuePath: 'content',
+        extras: {
+          label: 'Sub Manager',
+          width: 'col-xs-2'
+        }
+      }, {
+        content: function content(parent) {
+          return store.findAll('employee');
+        },
+        optionValuePath: 'content',
+        extras: {
+          label: 'Employee',
+          width: 'col-xs-2'
+        }
+      }, {
+        content: function content(parent) {
+          return store.findAll('task');
+        },
+        optionValuePath: 'content',
+        extras: {
+          label: 'Task',
+          width: 'col-xs-2'
+        }
+      }, {
+        content: function content(parent) {
+          return store.findAll('sub-task');
+        },
+        optionValuePath: 'content',
+        extras: {
+          label: 'Sub Task',
+          width: 'col-xs-2'
+        }
+      }];
+    }),
 
     finalSelectXSelection: null
 
@@ -543,6 +549,45 @@ define('dummy/templates/application', ['exports'], function (exports) {
 
   exports['default'] = Ember.HTMLBars.template((function() {
     var child0 = (function() {
+      var child0 = (function() {
+        return {
+          meta: {
+            "revision": "Ember@1.13.5",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 11,
+                "column": 14
+              },
+              "end": {
+                "line": 13,
+                "column": 14
+              }
+            },
+            "moduleName": "dummy/templates/application.hbs"
+          },
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("                  ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("i");
+            dom.setAttribute(el1,"class","fa fa-spinner fa-pulse");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() { return []; },
+          statements: [
+
+          ],
+          locals: [],
+          templates: []
+        };
+      }());
       return {
         meta: {
           "revision": "Ember@1.13.5",
@@ -553,7 +598,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
               "column": 6
             },
             "end": {
-              "line": 22,
+              "line": 25,
               "column": 6
             }
           },
@@ -567,7 +612,11 @@ define('dummy/templates/application', ['exports'], function (exports) {
           var el1 = dom.createTextNode("          ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("div");
-          var el2 = dom.createTextNode("\n              ");
+          var el2 = dom.createTextNode("\n");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("              ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("label");
           var el3 = dom.createComment("");
@@ -586,33 +635,74 @@ define('dummy/templates/application', ['exports'], function (exports) {
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var element1 = dom.childAt(fragment, [1]);
-          var morphs = new Array(3);
+          var morphs = new Array(4);
           morphs[0] = dom.createAttrMorph(element1, 'class');
-          morphs[1] = dom.createMorphAt(dom.childAt(element1, [1]),0,0);
-          morphs[2] = dom.createMorphAt(element1,3,3);
+          morphs[1] = dom.createMorphAt(element1,1,1);
+          morphs[2] = dom.createMorphAt(dom.childAt(element1, [3]),0,0);
+          morphs[3] = dom.createMorphAt(element1,5,5);
           return morphs;
         },
         statements: [
           ["attribute","class",["concat",["form-group ",["get","control.extras.width",["loc",[null,[10,35],[10,55]]]]]]],
-          ["content","control.extras.label",["loc",[null,[11,21],[11,45]]]],
-          ["inline","view",["select"],["content",["subexpr","@mut",[["get","control.content",["loc",[null,[13,20],[13,35]]]]],[],[]],"selection",["subexpr","@mut",[["get","control.selection",["loc",[null,[14,22],[14,39]]]]],[],[]],"optionValuePath",["subexpr","@mut",[["get","control.optionValuePath",["loc",[null,[15,28],[15,51]]]]],[],[]],"optionLabelPath",["subexpr","@mut",[["get","control.optionLabelPath",["loc",[null,[16,28],[16,51]]]]],[],[]],"class","form-control","prompt",["subexpr","@mut",[["get","control.prompt",["loc",[null,[18,19],[18,33]]]]],[],[]],"disabled",["subexpr","@mut",[["get","control.disabled",["loc",[null,[19,21],[19,37]]]]],[],[]]],["loc",[null,[12,12],[20,14]]]]
+          ["block","if",[["get","control.isLoading",["loc",[null,[11,20],[11,37]]]]],[],0,null,["loc",[null,[11,14],[13,21]]]],
+          ["content","control.extras.label",["loc",[null,[14,21],[14,45]]]],
+          ["inline","view",["select"],["content",["subexpr","@mut",[["get","control.content",["loc",[null,[16,20],[16,35]]]]],[],[]],"selection",["subexpr","@mut",[["get","control.selection",["loc",[null,[17,22],[17,39]]]]],[],[]],"optionValuePath",["subexpr","@mut",[["get","control.optionValuePath",["loc",[null,[18,28],[18,51]]]]],[],[]],"optionLabelPath",["subexpr","@mut",[["get","control.optionLabelPath",["loc",[null,[19,28],[19,51]]]]],[],[]],"class","form-control","prompt",["subexpr","@mut",[["get","control.prompt",["loc",[null,[21,19],[21,33]]]]],[],[]],"disabled",["subexpr","@mut",[["get","control.disabled",["loc",[null,[22,21],[22,37]]]]],[],[]]],["loc",[null,[15,12],[23,14]]]]
         ],
         locals: ["control"],
-        templates: []
+        templates: [child0]
       };
     }());
     var child1 = (function() {
+      var child0 = (function() {
+        return {
+          meta: {
+            "revision": "Ember@1.13.5",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 41,
+                "column": 12
+              },
+              "end": {
+                "line": 43,
+                "column": 12
+              }
+            },
+            "moduleName": "dummy/templates/application.hbs"
+          },
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("                ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("i");
+            dom.setAttribute(el1,"class","fa fa-spinner fa-pulse");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() { return []; },
+          statements: [
+
+          ],
+          locals: [],
+          templates: []
+        };
+      }());
       return {
         meta: {
           "revision": "Ember@1.13.5",
           "loc": {
             "source": null,
             "start": {
-              "line": 36,
+              "line": 39,
               "column": 6
             },
             "end": {
-              "line": 50,
+              "line": 56,
               "column": 6
             }
           },
@@ -626,7 +716,11 @@ define('dummy/templates/application', ['exports'], function (exports) {
           var el1 = dom.createTextNode("          ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("div");
-          var el2 = dom.createTextNode("\n              ");
+          var el2 = dom.createTextNode("\n");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("              ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("label");
           var el3 = dom.createComment("");
@@ -645,19 +739,21 @@ define('dummy/templates/application', ['exports'], function (exports) {
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var element0 = dom.childAt(fragment, [1]);
-          var morphs = new Array(3);
+          var morphs = new Array(4);
           morphs[0] = dom.createAttrMorph(element0, 'class');
-          morphs[1] = dom.createMorphAt(dom.childAt(element0, [1]),0,0);
-          morphs[2] = dom.createMorphAt(element0,3,3);
+          morphs[1] = dom.createMorphAt(element0,1,1);
+          morphs[2] = dom.createMorphAt(dom.childAt(element0, [3]),0,0);
+          morphs[3] = dom.createMorphAt(element0,5,5);
           return morphs;
         },
         statements: [
-          ["attribute","class",["concat",["form-group ",["get","control.extras.width",["loc",[null,[37,35],[37,55]]]]]]],
-          ["content","control.extras.label",["loc",[null,[38,21],[38,45]]]],
-          ["inline","x-select",[],["action",["subexpr","action",[["subexpr","mut",[["get","control.selection",["loc",[null,[39,43],[39,60]]]]],[],["loc",[null,[39,38],[39,61]]]]],[],["loc",[null,[39,30],[39,62]]]],"multiple",false,"content",["subexpr","@mut",[["get","control.content",["loc",[null,[41,20],[41,35]]]]],[],[]],"selection",["subexpr","@mut",[["get","control.selection",["loc",[null,[42,24],[42,41]]]]],[],[]],"optionValuePath",["subexpr","@mut",[["get","control.optionValuePath",["loc",[null,[43,28],[43,51]]]]],[],[]],"optionLabelPath",["subexpr","@mut",[["get","control.optionLabelPath",["loc",[null,[44,28],[44,51]]]]],[],[]],"prompt",["subexpr","@mut",[["get","control.prompt",["loc",[null,[45,19],[45,33]]]]],[],[]],"disabled",["subexpr","@mut",[["get","control.disabled",["loc",[null,[46,21],[46,37]]]]],[],[]],"class","form-control"],["loc",[null,[39,12],[48,14]]]]
+          ["attribute","class",["concat",["form-group ",["get","control.extras.width",["loc",[null,[40,35],[40,55]]]]]]],
+          ["block","if",[["get","control.isLoading",["loc",[null,[41,18],[41,35]]]]],[],0,null,["loc",[null,[41,12],[43,19]]]],
+          ["content","control.extras.label",["loc",[null,[44,21],[44,45]]]],
+          ["inline","x-select",[],["action",["subexpr","action",[["subexpr","mut",[["get","control.selection",["loc",[null,[45,43],[45,60]]]]],[],["loc",[null,[45,38],[45,61]]]]],[],["loc",[null,[45,30],[45,62]]]],"multiple",false,"content",["subexpr","@mut",[["get","control.content",["loc",[null,[47,20],[47,35]]]]],[],[]],"selection",["subexpr","@mut",[["get","control.selection",["loc",[null,[48,24],[48,41]]]]],[],[]],"optionValuePath",["subexpr","@mut",[["get","control.optionValuePath",["loc",[null,[49,28],[49,51]]]]],[],[]],"optionLabelPath",["subexpr","@mut",[["get","control.optionLabelPath",["loc",[null,[50,28],[50,51]]]]],[],[]],"prompt",["subexpr","@mut",[["get","control.prompt",["loc",[null,[51,19],[51,33]]]]],[],[]],"disabled",["subexpr","@mut",[["get","control.disabled",["loc",[null,[52,21],[52,37]]]]],[],[]],"class","form-control"],["loc",[null,[45,12],[54,14]]]]
         ],
         locals: ["control"],
-        templates: []
+        templates: [child0]
       };
     }());
     return {
@@ -670,7 +766,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 67,
+            "line": 73,
             "column": 0
           }
         },
@@ -833,10 +929,10 @@ define('dummy/templates/application', ['exports'], function (exports) {
         return morphs;
       },
       statements: [
-        ["block","aupac-cascading-select",[],["items",["subexpr","@mut",[["get","items",["loc",[null,[9,38],[9,43]]]]],[],[]],"store",["subexpr","@mut",[["get","store",["loc",[null,[9,50],[9,55]]]]],[],[]],"action",["subexpr","action",[["subexpr","mut",[["get","finalSelection",["loc",[null,[9,76],[9,90]]]]],[],["loc",[null,[9,71],[9,91]]]]],[],["loc",[null,[9,63],[9,92]]]]],0,null,["loc",[null,[9,6],[22,33]]]],
-        ["content","finalSelection.name",["loc",[null,[26,35],[26,58]]]],
-        ["block","aupac-cascading-select",[],["items",["subexpr","@mut",[["get","selectXitems",["loc",[null,[36,38],[36,50]]]]],[],[]],"store",["subexpr","@mut",[["get","store",["loc",[null,[36,57],[36,62]]]]],[],[]],"action",["subexpr","action",[["subexpr","mut",[["get","finalSelectXSelection",["loc",[null,[36,83],[36,104]]]]],[],["loc",[null,[36,78],[36,105]]]]],[],["loc",[null,[36,70],[36,106]]]]],1,null,["loc",[null,[36,6],[50,33]]]],
-        ["content","finalSelectXSelection.name",["loc",[null,[57,35],[57,65]]]]
+        ["block","aupac-cascading-select",[],["items",["subexpr","@mut",[["get","items",["loc",[null,[9,38],[9,43]]]]],[],[]],"action",["subexpr","action",[["subexpr","mut",[["get","finalSelection",["loc",[null,[9,64],[9,78]]]]],[],["loc",[null,[9,59],[9,79]]]]],[],["loc",[null,[9,51],[9,80]]]]],0,null,["loc",[null,[9,6],[25,33]]]],
+        ["content","finalSelection.name",["loc",[null,[29,35],[29,58]]]],
+        ["block","aupac-cascading-select",[],["items",["subexpr","@mut",[["get","selectXitems",["loc",[null,[39,38],[39,50]]]]],[],[]],"action",["subexpr","action",[["subexpr","mut",[["get","finalSelectXSelection",["loc",[null,[39,71],[39,92]]]]],[],["loc",[null,[39,66],[39,93]]]]],[],["loc",[null,[39,58],[39,94]]]]],1,null,["loc",[null,[39,6],[56,33]]]],
+        ["content","finalSelectXSelection.name",["loc",[null,[63,35],[63,65]]]]
       ],
       locals: [],
       templates: [child0, child1]
@@ -1417,7 +1513,7 @@ catch(err) {
 if (runningTests) {
   require("dummy/tests/test-helper");
 } else {
-  require("dummy/app")["default"].create({"name":"ember-aupac-cascading-select","version":"1.1.0.15a44fc3"});
+  require("dummy/app")["default"].create({"name":"ember-aupac-cascading-select","version":"1.1.1.2af3ee83"});
 }
 
 /* jshint ignore:end */

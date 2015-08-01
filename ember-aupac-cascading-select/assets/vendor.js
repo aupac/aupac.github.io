@@ -1,9 +1,9 @@
 /* jshint ignore:start */
 
-window.EmberENV = {"EXTEND_PROTOTYPES":true,"FEATURES":{}};
+window.EmberENV = {"FEATURES":{}};
 var runningTests = false;
 
-self.EmberENV.EXTEND_PROTOTYPES = false;
+
 
 /* jshint ignore:end */
 
@@ -144250,11 +144250,14 @@ define('ember-aupac-cascading-select/components/aupac-cascading-select', ['expor
             var parentSelection = this.get('parent.selection');
             var isFirstControl = this.get('index') === 0;
             if (isFirstControl || parentSelection) {
-                return this.contentRequest(parentSelection, this.get('store'));
+                return this.contentRequest(parentSelection);
             } else {
                 return Ember['default'].A([]);
             }
         }),
+
+        zeroRecords: computed.equal('content.length', 0),
+        isLoading: computed.and('zeroRecords', 'enabled'),
 
         selectionInvalid: computed.none('selection'),
         selectionValid: computed.not('selectionInvalid'),
@@ -144323,8 +144326,7 @@ define('ember-aupac-cascading-select/components/aupac-cascading-select', ['expor
                         return index === 0 ? null : controls[index - 1];
                     }),
                     controls: controls, //TODO breaks Hollywood principal (try to get rid of this)
-                    selection: model.get('item' + idx),
-                    store: _this.get('store')
+                    selection: model.get('item' + idx)
                 });
 
                 controls.pushObject(SelectControl.create());
