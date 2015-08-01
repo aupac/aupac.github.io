@@ -76,7 +76,7 @@ define('dummy/ember-aupac-control/tests/modules/ember-aupac-control/components/a
 
   module('JSHint - modules/ember-aupac-control/components');
   test('modules/ember-aupac-control/components/aupac-control.js should pass jshint', function () {
-    ok(false, 'modules/ember-aupac-control/components/aupac-control.js should pass jshint.\nmodules/ember-aupac-control/components/aupac-control.js: line 68, col 36, Missing semicolon.\n\n1 error');
+    ok(true, 'modules/ember-aupac-control/components/aupac-control.js should pass jshint.');
   });
 
 });
@@ -775,7 +775,7 @@ define('dummy/tests/controllers/application.jshint', function () {
 
   module('JSHint - controllers');
   test('controllers/application.js should pass jshint', function() { 
-    ok(false, 'controllers/application.js should pass jshint.\ncontrollers/application.js: line 2, col 49, Missing semicolon.\n\n1 error'); 
+    ok(true, 'controllers/application.js should pass jshint.'); 
   });
 
 });
@@ -993,7 +993,7 @@ catch(err) {
 if (runningTests) {
   require("dummy/tests/test-helper");
 } else {
-  require("dummy/app")["default"].create({"name":"ember-aupac-control","version":"0.0.0.fbed249f"});
+  require("dummy/app")["default"].create({"name":"ember-aupac-control","version":"1.0.1.0d6ad2ad"});
 }
 
 /* jshint ignore:end */
