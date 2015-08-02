@@ -51,7 +51,7 @@ define('dummy/controllers/application', ['exports', 'ember'], function (exports,
   exports['default'] = Ember['default'].Controller.extend({
 
     //Bootstrap Styling
-    items: Ember['default'].computed(function () {
+    items1: Ember['default'].computed(function () {
       var store = this.store;
       return [{
         content: function content(parent) {
@@ -96,25 +96,24 @@ define('dummy/controllers/application', ['exports', 'ember'], function (exports,
       }];
     }),
 
-    finalSelection: null,
+    items1Selection: null,
 
     //Select X
-    selectXitems: Ember['default'].computed(function () {
+    items2: Ember['default'].computed(function () {
       var store = this.store;
       return [{
         content: function content(parent) {
           return store.findAll('manager');
         },
-        optionValuePath: 'content',
         extras: {
           label: 'Manager',
           width: 'col-xs-2'
-        }
+        },
+        selection: store.find('manager', 1)
       }, {
         content: function content(parent) {
           return store.findAll('sub-manager');
         },
-        optionValuePath: 'content',
         extras: {
           label: 'Sub Manager',
           width: 'col-xs-2'
@@ -123,7 +122,6 @@ define('dummy/controllers/application', ['exports', 'ember'], function (exports,
         content: function content(parent) {
           return store.findAll('employee');
         },
-        optionValuePath: 'content',
         extras: {
           label: 'Employee',
           width: 'col-xs-2'
@@ -132,7 +130,6 @@ define('dummy/controllers/application', ['exports', 'ember'], function (exports,
         content: function content(parent) {
           return store.findAll('task');
         },
-        optionValuePath: 'content',
         extras: {
           label: 'Task',
           width: 'col-xs-2'
@@ -141,7 +138,6 @@ define('dummy/controllers/application', ['exports', 'ember'], function (exports,
         content: function content(parent) {
           return store.findAll('sub-task');
         },
-        optionValuePath: 'content',
         extras: {
           label: 'Sub Task',
           width: 'col-xs-2'
@@ -149,7 +145,69 @@ define('dummy/controllers/application', ['exports', 'ember'], function (exports,
       }];
     }),
 
-    finalSelectXSelection: null
+    items2Selection: null,
+
+    //Preselected items
+    items3: [],
+
+    //Bootstrap Styling
+    items3Update: Ember['default'].on('init', function () {
+      var _this = this;
+
+      var store = this.store;
+      Ember['default'].RSVP.all([store.findRecord('manager', 1), store.findRecord('sub-manager', 2), store.findRecord('employee', 3), store.findRecord('task', 4), store.findRecord('sub-task', 5)]).then(function (results) {
+        var items = [{
+          content: function content(parent) {
+            return store.findAll('manager');
+          },
+          extras: {
+            label: 'Manager',
+            width: 'col-xs-2'
+          },
+          selection: results[0]
+        }, {
+          content: function content(parent) {
+            return store.findAll('sub-manager');
+          },
+          extras: {
+            label: 'Sub Manager',
+            width: 'col-xs-2'
+          },
+          selection: results[1]
+        }, {
+          content: function content(parent) {
+            return store.findAll('employee');
+          },
+          extras: {
+            label: 'Employee',
+            width: 'col-xs-2'
+          },
+          selection: results[2]
+        }, {
+          content: function content(parent) {
+            return store.findAll('task');
+          },
+          extras: {
+            label: 'Task',
+            width: 'col-xs-2'
+          },
+          selection: results[3]
+        }, {
+          content: function content(parent) {
+            return store.findAll('sub-task');
+          },
+          extras: {
+            label: 'Sub Task',
+            width: 'col-xs-2'
+          },
+          selection: results[4]
+        }];
+
+        _this.set('items3', items);
+      });
+    }),
+
+    items3Selection: null
 
   });
 
@@ -634,12 +692,12 @@ define('dummy/templates/application', ['exports'], function (exports) {
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element1 = dom.childAt(fragment, [1]);
+          var element2 = dom.childAt(fragment, [1]);
           var morphs = new Array(4);
-          morphs[0] = dom.createAttrMorph(element1, 'class');
-          morphs[1] = dom.createMorphAt(element1,1,1);
-          morphs[2] = dom.createMorphAt(dom.childAt(element1, [3]),0,0);
-          morphs[3] = dom.createMorphAt(element1,5,5);
+          morphs[0] = dom.createAttrMorph(element2, 'class');
+          morphs[1] = dom.createMorphAt(element2,1,1);
+          morphs[2] = dom.createMorphAt(dom.childAt(element2, [3]),0,0);
+          morphs[3] = dom.createMorphAt(element2,5,5);
           return morphs;
         },
         statements: [
@@ -738,6 +796,283 @@ define('dummy/templates/application', ['exports'], function (exports) {
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element1 = dom.childAt(fragment, [1]);
+          var morphs = new Array(4);
+          morphs[0] = dom.createAttrMorph(element1, 'class');
+          morphs[1] = dom.createMorphAt(element1,1,1);
+          morphs[2] = dom.createMorphAt(dom.childAt(element1, [3]),0,0);
+          morphs[3] = dom.createMorphAt(element1,5,5);
+          return morphs;
+        },
+        statements: [
+          ["attribute","class",["concat",["form-group ",["get","control.extras.width",["loc",[null,[40,35],[40,55]]]]]]],
+          ["block","if",[["get","control.isLoading",["loc",[null,[41,18],[41,35]]]]],[],0,null,["loc",[null,[41,12],[43,19]]]],
+          ["content","control.extras.label",["loc",[null,[44,21],[44,45]]]],
+          ["inline","x-select",[],["action",["subexpr","action",[["subexpr","mut",[["get","control.selection",["loc",[null,[45,43],[45,60]]]]],[],["loc",[null,[45,38],[45,61]]]]],[],["loc",[null,[45,30],[45,62]]]],"multiple",false,"content",["subexpr","@mut",[["get","control.content",["loc",[null,[47,20],[47,35]]]]],[],[]],"selection",["subexpr","@mut",[["get","control.selection",["loc",[null,[48,22],[48,39]]]]],[],[]],"optionValuePath",["subexpr","@mut",[["get","control.optionValuePath",["loc",[null,[49,28],[49,51]]]]],[],[]],"optionLabelPath",["subexpr","@mut",[["get","control.optionLabelPath",["loc",[null,[50,28],[50,51]]]]],[],[]],"prompt",["subexpr","@mut",[["get","control.prompt",["loc",[null,[51,19],[51,33]]]]],[],[]],"disabled",["subexpr","@mut",[["get","control.disabled",["loc",[null,[52,21],[52,37]]]]],[],[]],"class","form-control"],["loc",[null,[45,12],[54,14]]]]
+        ],
+        locals: ["control"],
+        templates: [child0]
+      };
+    }());
+    var child2 = (function() {
+      var child0 = (function() {
+        return {
+          meta: {
+            "revision": "Ember@1.13.5",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 73,
+                "column": 12
+              },
+              "end": {
+                "line": 75,
+                "column": 12
+              }
+            },
+            "moduleName": "dummy/templates/application.hbs"
+          },
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("                ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("i");
+            dom.setAttribute(el1,"class","fa fa-spinner fa-pulse");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() { return []; },
+          statements: [
+
+          ],
+          locals: [],
+          templates: []
+        };
+      }());
+      var child1 = (function() {
+        var child0 = (function() {
+          return {
+            meta: {
+              "revision": "Ember@1.13.5",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 79,
+                  "column": 14
+                },
+                "end": {
+                  "line": 79,
+                  "column": 56
+                }
+              },
+              "moduleName": "dummy/templates/application.hbs"
+            },
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+              dom.insertBoundary(fragment, 0);
+              dom.insertBoundary(fragment, null);
+              return morphs;
+            },
+            statements: [
+              ["content","control.prompt",["loc",[null,[79,38],[79,56]]]]
+            ],
+            locals: [],
+            templates: []
+          };
+        }());
+        var child1 = (function() {
+          var child0 = (function() {
+            return {
+              meta: {
+                "revision": "Ember@1.13.5",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 81,
+                    "column": 16
+                  },
+                  "end": {
+                    "line": 83,
+                    "column": 16
+                  }
+                },
+                "moduleName": "dummy/templates/application.hbs"
+              },
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("                  ");
+                dom.appendChild(el0, el1);
+                var el1 = dom.createComment("");
+                dom.appendChild(el0, el1);
+                var el1 = dom.createTextNode(" ");
+                dom.appendChild(el0, el1);
+                var el1 = dom.createTextNode("\n");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                var morphs = new Array(1);
+                morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+                return morphs;
+              },
+              statements: [
+                ["content","item.name",["loc",[null,[82,18],[82,31]]]]
+              ],
+              locals: [],
+              templates: []
+            };
+          }());
+          return {
+            meta: {
+              "revision": "Ember@1.13.5",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 80,
+                  "column": 14
+                },
+                "end": {
+                  "line": 84,
+                  "column": 14
+                }
+              },
+              "moduleName": "dummy/templates/application.hbs"
+            },
+            arity: 1,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+              dom.insertBoundary(fragment, 0);
+              dom.insertBoundary(fragment, null);
+              return morphs;
+            },
+            statements: [
+              ["block","x-option",[],["value",["subexpr","@mut",[["get","item",["loc",[null,[81,34],[81,38]]]]],[],[]]],0,null,["loc",[null,[81,16],[83,29]]]]
+            ],
+            locals: ["item"],
+            templates: [child0]
+          };
+        }());
+        return {
+          meta: {
+            "revision": "Ember@1.13.5",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 78,
+                "column": 12
+              },
+              "end": {
+                "line": 85,
+                "column": 12
+              }
+            },
+            "moduleName": "dummy/templates/application.hbs"
+          },
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("              ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(2);
+            morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+            morphs[1] = dom.createMorphAt(fragment,3,3,contextualElement);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [
+            ["block","x-option",[],["value",null],0,null,["loc",[null,[79,14],[79,69]]]],
+            ["block","each",[["get","control.content",["loc",[null,[80,22],[80,37]]]]],[],1,null,["loc",[null,[80,14],[84,23]]]]
+          ],
+          locals: [],
+          templates: [child0, child1]
+        };
+      }());
+      return {
+        meta: {
+          "revision": "Ember@1.13.5",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 71,
+              "column": 6
+            },
+            "end": {
+              "line": 99,
+              "column": 6
+            }
+          },
+          "moduleName": "dummy/templates/application.hbs"
+        },
+        arity: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("          ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          var el2 = dom.createTextNode("\n");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("              ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("label");
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n\n");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("          ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var element0 = dom.childAt(fragment, [1]);
           var morphs = new Array(4);
           morphs[0] = dom.createAttrMorph(element0, 'class');
@@ -747,13 +1082,13 @@ define('dummy/templates/application', ['exports'], function (exports) {
           return morphs;
         },
         statements: [
-          ["attribute","class",["concat",["form-group ",["get","control.extras.width",["loc",[null,[40,35],[40,55]]]]]]],
-          ["block","if",[["get","control.isLoading",["loc",[null,[41,18],[41,35]]]]],[],0,null,["loc",[null,[41,12],[43,19]]]],
-          ["content","control.extras.label",["loc",[null,[44,21],[44,45]]]],
-          ["inline","x-select",[],["action",["subexpr","action",[["subexpr","mut",[["get","control.selection",["loc",[null,[45,43],[45,60]]]]],[],["loc",[null,[45,38],[45,61]]]]],[],["loc",[null,[45,30],[45,62]]]],"multiple",false,"content",["subexpr","@mut",[["get","control.content",["loc",[null,[47,20],[47,35]]]]],[],[]],"selection",["subexpr","@mut",[["get","control.selection",["loc",[null,[48,24],[48,41]]]]],[],[]],"optionValuePath",["subexpr","@mut",[["get","control.optionValuePath",["loc",[null,[49,28],[49,51]]]]],[],[]],"optionLabelPath",["subexpr","@mut",[["get","control.optionLabelPath",["loc",[null,[50,28],[50,51]]]]],[],[]],"prompt",["subexpr","@mut",[["get","control.prompt",["loc",[null,[51,19],[51,33]]]]],[],[]],"disabled",["subexpr","@mut",[["get","control.disabled",["loc",[null,[52,21],[52,37]]]]],[],[]],"class","form-control"],["loc",[null,[45,12],[54,14]]]]
+          ["attribute","class",["concat",["form-group ",["get","control.extras.width",["loc",[null,[72,35],[72,55]]]]]]],
+          ["block","if",[["get","control.isLoading",["loc",[null,[73,18],[73,35]]]]],[],0,null,["loc",[null,[73,12],[75,19]]]],
+          ["content","control.extras.label",["loc",[null,[76,21],[76,45]]]],
+          ["block","x-select",[],["value",["subexpr","@mut",[["get","control.selection",["loc",[null,[78,30],[78,47]]]]],[],[]],"disabled",["subexpr","@mut",[["get","control.disabled",["loc",[null,[78,57],[78,73]]]]],[],[]],"action",["subexpr","action",[["subexpr","mut",[["get","control.selection",["loc",[null,[78,94],[78,111]]]]],[],["loc",[null,[78,89],[78,112]]]]],[],["loc",[null,[78,81],[78,113]]]],"class","form-control"],1,null,["loc",[null,[78,12],[85,25]]]]
         ],
         locals: ["control"],
-        templates: [child0]
+        templates: [child0, child1]
       };
     }());
     return {
@@ -766,7 +1101,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 73,
+            "line": 117,
             "column": 0
           }
         },
@@ -879,10 +1214,57 @@ define('dummy/templates/application', ['exports'], function (exports) {
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("div");
         dom.setAttribute(el4,"class","col-xs-12");
+        var el5 = dom.createTextNode("\n                ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("h2");
+        var el6 = dom.createTextNode("You selected : ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createComment("");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n            ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n        ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","panel panel-default");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","panel-heading");
+        var el3 = dom.createTextNode("Pre-selecting items");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","panel-body");
+        var el3 = dom.createTextNode("\n\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3,"class","row");
+        var el4 = dom.createTextNode("\n            ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4,"class","col-xs-12");
         var el5 = dom.createTextNode("\n                * Note: ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("small");
-        var el6 = dom.createTextNode("For this to work I needed to override the optionValuePath to be 'content' instead of 'content.id'");
+        var el6 = dom.createTextNode("For this to work, all \"seletion\" promises need to be resolved before updating the items array");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("br");
@@ -919,23 +1301,28 @@ define('dummy/templates/application', ['exports'], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element2 = dom.childAt(fragment, [2, 3]);
-        var element3 = dom.childAt(fragment, [4, 3]);
-        var morphs = new Array(4);
-        morphs[0] = dom.createMorphAt(element2,1,1);
-        morphs[1] = dom.createMorphAt(dom.childAt(element2, [3, 1, 1]),1,1);
-        morphs[2] = dom.createMorphAt(element3,1,1);
-        morphs[3] = dom.createMorphAt(dom.childAt(element3, [3, 3, 1]),1,1);
+        var element3 = dom.childAt(fragment, [2, 3]);
+        var element4 = dom.childAt(fragment, [4, 3]);
+        var element5 = dom.childAt(fragment, [6, 3]);
+        var morphs = new Array(6);
+        morphs[0] = dom.createMorphAt(element3,1,1);
+        morphs[1] = dom.createMorphAt(dom.childAt(element3, [3, 1, 1]),1,1);
+        morphs[2] = dom.createMorphAt(element4,1,1);
+        morphs[3] = dom.createMorphAt(dom.childAt(element4, [3, 1, 1]),1,1);
+        morphs[4] = dom.createMorphAt(element5,1,1);
+        morphs[5] = dom.createMorphAt(dom.childAt(element5, [3, 3, 1]),1,1);
         return morphs;
       },
       statements: [
-        ["block","aupac-cascading-select",[],["items",["subexpr","@mut",[["get","items",["loc",[null,[9,38],[9,43]]]]],[],[]],"action",["subexpr","action",[["subexpr","mut",[["get","finalSelection",["loc",[null,[9,64],[9,78]]]]],[],["loc",[null,[9,59],[9,79]]]]],[],["loc",[null,[9,51],[9,80]]]]],0,null,["loc",[null,[9,6],[25,33]]]],
-        ["content","finalSelection.name",["loc",[null,[29,35],[29,58]]]],
-        ["block","aupac-cascading-select",[],["items",["subexpr","@mut",[["get","selectXitems",["loc",[null,[39,38],[39,50]]]]],[],[]],"action",["subexpr","action",[["subexpr","mut",[["get","finalSelectXSelection",["loc",[null,[39,71],[39,92]]]]],[],["loc",[null,[39,66],[39,93]]]]],[],["loc",[null,[39,58],[39,94]]]]],1,null,["loc",[null,[39,6],[56,33]]]],
-        ["content","finalSelectXSelection.name",["loc",[null,[63,35],[63,65]]]]
+        ["block","aupac-cascading-select",[],["items",["subexpr","@mut",[["get","items1",["loc",[null,[9,38],[9,44]]]]],[],[]],"action",["subexpr","action",[["subexpr","mut",[["get","items1Selection",["loc",[null,[9,65],[9,80]]]]],[],["loc",[null,[9,60],[9,81]]]]],[],["loc",[null,[9,52],[9,82]]]]],0,null,["loc",[null,[9,6],[25,33]]]],
+        ["content","items1Selection.name",["loc",[null,[29,35],[29,59]]]],
+        ["block","aupac-cascading-select",[],["items",["subexpr","@mut",[["get","items2",["loc",[null,[39,38],[39,44]]]]],[],[]],"action",["subexpr","action",[["subexpr","mut",[["get","items2Selection",["loc",[null,[39,65],[39,80]]]]],[],["loc",[null,[39,60],[39,81]]]]],[],["loc",[null,[39,52],[39,82]]]]],1,null,["loc",[null,[39,6],[56,33]]]],
+        ["content","items2Selection.name",["loc",[null,[60,35],[60,59]]]],
+        ["block","aupac-cascading-select",[],["items",["subexpr","@mut",[["get","items3",["loc",[null,[71,38],[71,44]]]]],[],[]],"action",["subexpr","action",[["subexpr","mut",[["get","items3Selection",["loc",[null,[71,65],[71,80]]]]],[],["loc",[null,[71,60],[71,81]]]]],[],["loc",[null,[71,52],[71,82]]]]],2,null,["loc",[null,[71,6],[99,33]]]],
+        ["content","items3Selection.name",["loc",[null,[107,35],[107,59]]]]
       ],
       locals: [],
-      templates: [child0, child1]
+      templates: [child0, child1, child2]
     };
   }()));
 
@@ -1513,7 +1900,7 @@ catch(err) {
 if (runningTests) {
   require("dummy/tests/test-helper");
 } else {
-  require("dummy/app")["default"].create({"name":"ember-aupac-cascading-select","version":"1.1.1.2af3ee83"});
+  require("dummy/app")["default"].create({"name":"ember-aupac-cascading-select","version":"1.2.0.6dfc0522"});
 }
 
 /* jshint ignore:end */

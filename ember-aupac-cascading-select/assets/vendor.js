@@ -144228,114 +144228,120 @@ if (typeof jQuery === 'undefined') {
 
 define('ember-aupac-cascading-select/components/aupac-cascading-select', ['exports', 'ember', 'ember-aupac-cascading-select/templates/components/aupac-cascading-select'], function (exports, Ember, layout) {
 
-    'use strict';
+  'use strict';
 
-    var computed = Ember['default'].computed;
-    var observer = Ember['default'].observer;
-    var isNone = Ember['default'].isNone;
+  var computed = Ember['default'].computed;
+  var observer = Ember['default'].observer;
+  var isNone = Ember['default'].isNone;
 
-    var DefaultItem = Ember['default'].Object.extend({
-        optionValuePath: 'content.id',
-        optionLabelPath: 'content.displayName',
-        prompt: 'Please Select',
-        content: function content() {
-            return Ember['default'].A([]);
-        },
-        extras: {}
-    });
+  var DefaultItem = Ember['default'].Object.extend({
+    optionValuePath: 'content',
+    optionLabelPath: 'content.displayName',
+    prompt: 'Please Select',
+    content: function content() {
+      return Ember['default'].A([]);
+    },
+    extras: {}
+  });
 
-    var AbstractControl = Ember['default'].Object.extend({
+  var AbstractControl = Ember['default'].Object.extend({
 
-        content: computed('parent.selection', function () {
-            var parentSelection = this.get('parent.selection');
-            var isFirstControl = this.get('index') === 0;
-            if (isFirstControl || parentSelection) {
-                return this.contentRequest(parentSelection);
-            } else {
-                return Ember['default'].A([]);
-            }
-        }),
+    content: computed('parent.selection', function () {
+      var parentSelection = this.get('parent.selection');
+      var isFirstControl = this.get('index') === 0;
+      if (isFirstControl || parentSelection) {
+        return this.contentRequest(parentSelection);
+      } else {
+        return Ember['default'].A([]);
+      }
+    }),
 
-        zeroRecords: computed.equal('content.length', 0),
-        isLoading: computed.and('zeroRecords', 'enabled'),
+    zeroRecords: computed.equal('content.length', 0),
+    isLoading: computed.and('zeroRecords', 'enabled'), //public
 
-        selectionInvalid: computed.none('selection'),
-        selectionValid: computed.not('selectionInvalid'),
+    selectionInvalid: computed.none('selection'),
+    selectionValid: computed.not('selectionInvalid'),
 
-        parentInvalid: computed.none('parent.selection'),
-        parentValid: computed.not('parentInvalid'),
+    parentInvalid: computed.none('parent.selection'),
+    parentValid: computed.not('parentInvalid'),
 
-        isFirstControl: computed.equal('index', 0),
-        isLastControl: computed('index', function () {
-            return this.get('index') === this.get('controls.length') - 1;
-        }),
-        enabled: computed.or('isFirstControl', 'parentValid'),
-        disabled: computed.not('enabled'),
+    isFirstControl: computed.equal('index', 0), //public
+    isLastControl: computed('index', function () {
+      return this.get('index') === this.get('controls.length') - 1;
+    }), //public
+    enabled: computed.or('isFirstControl', 'parentValid'), //public
+    notEnabled: computed.not('enabled'),
+    disabled: computed.or('notEnabled', 'isLoading'), //public
 
-        parentChanged: observer('parent.selection', function () {
-            if (!this.get('isFirstControl')) {
-                this.set('selection', null);
-                this.get('component').sendAction('action', null);
-            }
-        }),
+    parentChanged: observer('parent.selection', function () {
+      if (!this.get('isFirstControl')) {
+        this.set('selection', null);
+        this.get('component').sendAction('action', null);
+      }
+    }),
 
-        selectionChanged: observer('selection', function () {
-            var selection = this.get('selection');
-            if (this.get('isLastControl') && !isNone(selection)) {
-                this.get('component').sendAction('action', selection);
-            }
-        })
-    });
+    selectionChanged: observer('selection', function () {
+      var selection = this.get('selection');
+      if (this.get('isLastControl')) {
+        if (isNone(selection)) {
+          this.get('component').sendAction('action', null);
+        } else {
+          this.get('component').sendAction('action', selection);
+        }
+      }
+    })
+  });
 
-    exports['default'] = Ember['default'].Component.extend({
-        layout: layout['default'],
+  exports['default'] = Ember['default'].Component.extend({
+    layout: layout['default'],
 
-        //public API
-        items: null,
+    //public API
+    items: null,
 
-        //private variables and functions
-        controls: null,
-        model: null,
+    //private variables and functions
+    controls: null,
 
-        generateControls: Ember['default'].on('init', observer('items.length', function () {
-            var _this = this;
+    generateControls: Ember['default'].on('init', observer('items.length', function () {
+      var _this = this;
 
-            var items = this.get('items');
-            var controls = Ember['default'].A([]);
+      var items = this.get('items');
+      var controls = Ember['default'].A([]);
 
-            if (!Array.isArray(items)) {
-                throw Error('You need to specify an "items" object in your controller');
-            }
+      if (!Array.isArray(items)) {
+        throw Error('You need to specify an "items" array in your controller');
+      }
 
-            this.set('model', Ember['default'].Object.create({}));
-            var model = this.get('model');
+      //Generate the controls
+      items.forEach(function (item, idx) {
+        var mergedItem = DefaultItem.create(item);
+        var SelectControl = AbstractControl.extend({
+          component: _this,
+          index: idx, //public
+          extras: mergedItem.get('extras'), //public
+          prompt: mergedItem.get('prompt'), //public
+          optionValuePath: mergedItem.get('optionValuePath'), //public
+          optionLabelPath: mergedItem.get('optionLabelPath'), //public
+          contentRequest: mergedItem.get('content'), //renamed as actual content implementation does some extra stuff
+          parent: computed('index', function () {
+            var index = this.get('index');
+            return index === 0 ? null : controls[index - 1];
+          }), //public
+          controls: controls, //TODO breaks Hollywood principal (try to get rid of this)
+          selection: mergedItem.get('selection') //public
+        });
 
-            //Generate the controls
-            items.forEach(function (item, idx) {
-                var mergedItem = DefaultItem.create(item);
-                var SelectControl = AbstractControl.extend({
-                    component: _this,
-                    index: idx,
-                    extras: mergedItem.get('extras'),
-                    prompt: mergedItem.get('prompt'),
-                    optionValuePath: mergedItem.get('optionValuePath'),
-                    optionLabelPath: mergedItem.get('optionLabelPath'),
-                    contentRequest: mergedItem.get('content'), //renamed as actual content implementation does some extra stuff
-                    parent: computed('index', function () {
-                        var index = this.get('index');
-                        return index === 0 ? null : controls[index - 1];
-                    }),
-                    controls: controls, //TODO breaks Hollywood principal (try to get rid of this)
-                    selection: model.get('item' + idx)
-                });
+        controls.pushObject(SelectControl.create());
+      });
 
-                controls.pushObject(SelectControl.create());
-            });
+      var lastSelection = controls.get('lastObject.selection');
+      if (lastSelection) {
+        this.sendAction('action', lastSelection);
+      }
 
-            this.set('controls', controls);
-        }))
+      this.set('controls', controls);
+    }))
 
-    });
+  });
 
 });
 define('ember-aupac-cascading-select/templates/components/aupac-cascading-select', ['exports'], function (exports) {
