@@ -65,8 +65,9 @@ define('dummy/controllers/application', ['exports', 'ember'], function (exports,
         content: function content(parent) {
           return store.findAll('sub-manager');
         },
+        sort: ['displayName:desc'],
         extras: {
-          label: 'Sub Manager',
+          label: 'Sub Manager (in descending order)',
           width: 'col-xs-2'
         }
       }, {
@@ -1900,7 +1901,7 @@ catch(err) {
 if (runningTests) {
   require("dummy/tests/test-helper");
 } else {
-  require("dummy/app")["default"].create({"name":"ember-aupac-cascading-select","version":"1.2.0.6dfc0522"});
+  require("dummy/app")["default"].create({"name":"ember-aupac-cascading-select","version":"1.2.1.468de5d1"});
 }
 
 /* jshint ignore:end */

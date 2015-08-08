@@ -144238,6 +144238,7 @@ define('ember-aupac-cascading-select/components/aupac-cascading-select', ['expor
     optionValuePath: 'content',
     optionLabelPath: 'content.displayName',
     prompt: 'Please Select',
+    sort: ['id'],
     content: function content() {
       return Ember['default'].A([]);
     },
@@ -144246,7 +144247,7 @@ define('ember-aupac-cascading-select/components/aupac-cascading-select', ['expor
 
   var AbstractControl = Ember['default'].Object.extend({
 
-    content: computed('parent.selection', function () {
+    nonSortedContent: computed('parent.selection', function () {
       var parentSelection = this.get('parent.selection');
       var isFirstControl = this.get('index') === 0;
       if (isFirstControl || parentSelection) {
@@ -144255,6 +144256,7 @@ define('ember-aupac-cascading-select/components/aupac-cascading-select', ['expor
         return Ember['default'].A([]);
       }
     }),
+    content: computed.sort('nonSortedContent', 'sort'),
 
     zeroRecords: computed.equal('content.length', 0),
     isLoading: computed.and('zeroRecords', 'enabled'), //public
@@ -144327,7 +144329,8 @@ define('ember-aupac-cascading-select/components/aupac-cascading-select', ['expor
             return index === 0 ? null : controls[index - 1];
           }), //public
           controls: controls, //TODO breaks Hollywood principal (try to get rid of this)
-          selection: mergedItem.get('selection') //public
+          selection: mergedItem.get('selection'), //public
+          sort: mergedItem.get('sort') //public
         });
 
         controls.pushObject(SelectControl.create());
