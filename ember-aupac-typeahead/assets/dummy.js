@@ -893,6 +893,32 @@ define('dummy/tests/controllers/application.jshint', function () {
   });
 
 });
+define('dummy/tests/helpers/aupac-typeahead', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = function () {
+
+        /**
+         * Allows you to easily select an item from an ajax-search component.
+         *
+         * @param selector : jquery selector of the typeahead input element
+         * @param searchString : The search text
+         * @param suggestionIndex : The item to select from the drop down (starting at 1 for the first item)
+         */
+        Ember['default'].Test.registerHelper('aupacTypeaheadSearch', function (app, selector, searchString, suggestionIndex) {
+
+            $(selector).eq(0).val(searchString).trigger("input");
+
+            Ember['default'].run(function () {
+                click('.tt-suggestion:nth-child(' + suggestionIndex + ')');
+            });
+
+            return app.testHelpers.wait();
+        });
+    }
+
+});
 define('dummy/tests/helpers/resolver', ['exports', 'ember/resolver', 'dummy/config/environment'], function (exports, Resolver, config) {
 
   'use strict';
@@ -1139,24 +1165,19 @@ define('dummy/tests/models/task.jshint', function () {
   });
 
 });
-define('dummy/tests/pages/aupac-typeahead', ['exports', 'callcentre2/tests/page-object'], function (exports, PageObject) {
+define('dummy/tests/pages/aupac-typeahead', ['exports', 'dummy/tests/page-object'], function (exports, PageObject) {
 
   'use strict';
 
-  exports.typeahead = typeahead;
 
-  var visitable = PageObject['default'].visitable;
-  var selectable = PageObject['default'].selectable;
-  var text = PageObject['default'].text;
+
+  exports['default'] = aupacTypeahead;
   var value = PageObject['default'].value;
-  var count = PageObject['default'].count;
-  var fillable = PageObject['default'].fillable;
-  var clickOnText = PageObject['default'].clickOnText;
   var customHelper = PageObject['default'].customHelper;
   var collection = PageObject['default'].collection;
   var clickable = PageObject['default'].clickable;
 
-  function typeahead(selector, options) {
+  function aupacTypeahead(selector, options) {
     return {
       search: function search(_search) {
         $(selector).val(_search).trigger('input');
@@ -1167,7 +1188,14 @@ define('dummy/tests/pages/aupac-typeahead', ['exports', 'callcentre2/tests/page-
         item: {
           select: clickable()
         }
-      })
+      }),
+      value: value(selector),
+      isDisabled: function isDisabled() {
+        return $(selector).prop('disabled');
+      },
+      isEnabled: function isEnabled() {
+        return !$(selector).prop('disabled');
+      }
     };
   }
 
@@ -1319,7 +1347,7 @@ catch(err) {
 if (runningTests) {
   require("dummy/tests/test-helper");
 } else {
-  require("dummy/app")["default"].create({"name":"ember-aupac-typeahead","version":"0.0.5"});
+  require("dummy/app")["default"].create({"name":"ember-aupac-typeahead","version":"0.0.6"});
 }
 
 /* jshint ignore:end */
