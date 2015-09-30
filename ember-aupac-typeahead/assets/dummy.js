@@ -21,6 +21,15 @@ define('dummy/app', ['exports', 'ember', 'ember/resolver', 'ember/load-initializ
   exports['default'] = App;
 
 });
+define('dummy/blueprints/ember-aupac-typeahead', ['exports', 'ember-aupac-typeahead/blueprints/ember-aupac-typeahead'], function (exports, ember_aupac_typeahead) {
+
+	'use strict';
+
+
+
+	exports.default = ember_aupac_typeahead.default;
+
+});
 define('dummy/components/aupac-control', ['exports', 'ember-aupac-control/components/aupac-control'], function (exports, aupac_control) {
 
 	'use strict';
@@ -48,7 +57,7 @@ define('dummy/components/aupac-typeahead', ['exports', 'ember-aupac-typeahead/co
 	exports.default = aupac_typeahead.default;
 
 });
-define('dummy/controllers/application', ['exports', 'ember', 'ember-validations'], function (exports, Ember, EmberValidations) {
+define('dummy/controllers/application', ['exports', 'ember', 'ember-validations', 'dummy/templates/customised/suggestion', 'dummy/templates/customised/header', 'dummy/templates/customised/footer', 'dummy/templates/customised/not-found', 'dummy/templates/customised/pending'], function (exports, Ember, EmberValidations, suggestionTemplate, headerTemplate, footerTemplate, notFoundTemplate, pendingTemplate) {
 
   'use strict';
 
@@ -76,6 +85,13 @@ define('dummy/controllers/application', ['exports', 'ember', 'ember-validations'
     initialTask: computed(function () {
       return this.store.findRecord('task', 3);
     }),
+
+    isDisabled: false,
+    suggestionTemplate: suggestionTemplate['default'],
+    headerTemplate: headerTemplate['default'],
+    footerTemplate: footerTemplate['default'],
+    notFoundTemplate: notFoundTemplate['default'],
+    pendingTemplate: pendingTemplate['default'],
 
     validations: {
       country: {
@@ -538,11 +554,11 @@ define('dummy/templates/application', ['exports'], function (exports) {
             "source": null,
             "start": {
               "line": 12,
-              "column": 12
+              "column": 8
             },
             "end": {
               "line": 18,
-              "column": 12
+              "column": 8
             }
           },
           "moduleName": "dummy/templates/application.hbs"
@@ -552,7 +568,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("              ");
+          var el1 = dom.createTextNode("          ");
           dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
@@ -566,7 +582,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
           return morphs;
         },
         statements: [
-          ["inline","aupac-typeahead",[],["action",["subexpr","action",[["subexpr","mut",[["get","country",["loc",[null,[13,52],[13,59]]]]],[],["loc",[null,[13,47],[13,60]]]]],[],["loc",[null,[13,39],[13,61]]]],"class","form-control","source",["subexpr","@mut",[["get","countrySource",["loc",[null,[15,21],[15,34]]]]],[],[]],"placeholder","Search for a country"],["loc",[null,[13,14],[17,16]]]]
+          ["inline","aupac-typeahead",[],["action",["subexpr","action",[["subexpr","mut",[["get","country",["loc",[null,[13,48],[13,55]]]]],[],["loc",[null,[13,43],[13,56]]]]],[],["loc",[null,[13,35],[13,57]]]],"class","form-control","source",["subexpr","@mut",[["get","countrySource",["loc",[null,[15,17],[15,30]]]]],[],[]],"placeholder","Search for a country"],["loc",[null,[13,10],[17,12]]]]
         ],
         locals: [],
         templates: []
@@ -579,11 +595,11 @@ define('dummy/templates/application', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 35,
+              "line": 32,
               "column": 12
             },
             "end": {
-              "line": 41,
+              "line": 43,
               "column": 12
             }
           },
@@ -608,7 +624,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
           return morphs;
         },
         statements: [
-          ["inline","aupac-ember-data-typeahead",[],["action",["subexpr","action",[["subexpr","mut",[["get","employee",["loc",[null,[36,63],[36,71]]]]],[],["loc",[null,[36,58],[36,72]]]]],[],["loc",[null,[36,50],[36,73]]]],"class","form-control","modelClass","employee","placeholder","Type employee..."],["loc",[null,[36,14],[40,16]]]]
+          ["inline","aupac-typeahead",[],["action",["subexpr","action",[["subexpr","mut",[["get","country",["loc",[null,[33,52],[33,59]]]]],[],["loc",[null,[33,47],[33,60]]]]],[],["loc",[null,[33,39],[33,61]]]],"class","form-control","source",["subexpr","@mut",[["get","countrySource",["loc",[null,[35,21],[35,34]]]]],[],[]],"placeholder","Search for a country","suggestionTemplate",["subexpr","@mut",[["get","suggestionTemplate",["loc",[null,[37,33],[37,51]]]]],[],[]],"headerTemplate",["subexpr","@mut",[["get","headerTemplate",["loc",[null,[38,29],[38,43]]]]],[],[]],"footerTemplate",["subexpr","@mut",[["get","footerTemplate",["loc",[null,[39,29],[39,43]]]]],[],[]],"notFoundTemplate",["subexpr","@mut",[["get","notFoundTemplate",["loc",[null,[40,31],[40,47]]]]],[],[]],"pendingTemplate",["subexpr","@mut",[["get","pendingTemplate",["loc",[null,[41,30],[41,45]]]]],[],[]]],["loc",[null,[33,14],[42,16]]]]
         ],
         locals: [],
         templates: []
@@ -625,7 +641,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
               "column": 12
             },
             "end": {
-              "line": 65,
+              "line": 64,
               "column": 12
             }
           },
@@ -650,7 +666,49 @@ define('dummy/templates/application', ['exports'], function (exports) {
           return morphs;
         },
         statements: [
-          ["inline","aupac-ember-data-typeahead",[],["action",["subexpr","action",[["subexpr","mut",[["get","task",["loc",[null,[59,63],[59,67]]]]],[],["loc",[null,[59,58],[59,68]]]]],[],["loc",[null,[59,50],[59,69]]]],"selection",["subexpr","@mut",[["get","initialTask",["loc",[null,[60,24],[60,35]]]]],[],[]],"class","form-control","modelClass","task","placeholder","Type task..."],["loc",[null,[59,14],[64,16]]]]
+          ["inline","aupac-ember-data-typeahead",[],["action",["subexpr","action",[["subexpr","mut",[["get","employee",["loc",[null,[59,63],[59,71]]]]],[],["loc",[null,[59,58],[59,72]]]]],[],["loc",[null,[59,50],[59,73]]]],"class","form-control","modelClass","employee","placeholder","Type employee..."],["loc",[null,[59,14],[63,16]]]]
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    var child3 = (function() {
+      return {
+        meta: {
+          "revision": "Ember@1.13.5",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 82,
+              "column": 12
+            },
+            "end": {
+              "line": 90,
+              "column": 12
+            }
+          },
+          "moduleName": "dummy/templates/application.hbs"
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("              ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+          return morphs;
+        },
+        statements: [
+          ["inline","aupac-ember-data-typeahead",[],["action",["subexpr","action",[["subexpr","mut",[["get","task",["loc",[null,[83,63],[83,67]]]]],[],["loc",[null,[83,58],[83,68]]]]],[],["loc",[null,[83,50],[83,69]]]],"selection",["subexpr","@mut",[["get","initialTask",["loc",[null,[84,24],[84,35]]]]],[],[]],"class","form-control","modelClass","task","placeholder","Type task...","disabled",["subexpr","@mut",[["get","isDisabled",["loc",[null,[88,23],[88,33]]]]],[],[]]],["loc",[null,[83,14],[89,16]]]]
         ],
         locals: [],
         templates: []
@@ -666,7 +724,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 75,
+            "line": 100,
             "column": 0
           }
         },
@@ -689,12 +747,61 @@ define('dummy/templates/application', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2,"class","panel panel-default");
-        var el3 = dom.createTextNode("\n      ");
+        var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
         dom.setAttribute(el3,"class","panel-heading");
         var el4 = dom.createElement("h4");
         var el5 = dom.createTextNode("Searching a local array");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3,"class","panel-body");
+        var el4 = dom.createTextNode("\n\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4,"class","col-xs-12");
+        var el5 = dom.createTextNode("\n          ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("h5");
+        var el6 = dom.createTextNode("Selected Country: ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createComment("");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4,"class","col-xs-12");
+        var el5 = dom.createTextNode("\n");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","panel panel-default");
+        var el3 = dom.createTextNode("\n      ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3,"class","panel-heading");
+        var el4 = dom.createElement("h4");
+        var el5 = dom.createTextNode("Customise your templates");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
@@ -728,7 +835,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
         var el5 = dom.createTextNode("          ");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n\n\n      ");
+        var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n  ");
@@ -825,7 +932,15 @@ define('dummy/templates/application', ['exports'], function (exports) {
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("div");
         dom.setAttribute(el4,"class","col-xs-12");
-        var el5 = dom.createTextNode("\n\n");
+        var el5 = dom.createTextNode("\n\n            ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode(" Disabled?");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("br");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n");
         dom.appendChild(el4, el5);
         var el5 = dom.createComment("");
         dom.appendChild(el4, el5);
@@ -848,27 +963,272 @@ define('dummy/templates/application', ['exports'], function (exports) {
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element0 = dom.childAt(fragment, [0]);
         var element1 = dom.childAt(element0, [3, 3]);
-        var element2 = dom.childAt(element0, [7, 3]);
+        var element2 = dom.childAt(element0, [5, 3]);
         var element3 = dom.childAt(element0, [9, 3]);
-        var morphs = new Array(6);
+        var element4 = dom.childAt(element0, [11, 3]);
+        var element5 = dom.childAt(element4, [3]);
+        var morphs = new Array(9);
         morphs[0] = dom.createMorphAt(dom.childAt(element1, [1, 1]),1,1);
         morphs[1] = dom.createMorphAt(dom.childAt(element1, [3]),1,1);
         morphs[2] = dom.createMorphAt(dom.childAt(element2, [1, 1]),1,1);
         morphs[3] = dom.createMorphAt(dom.childAt(element2, [3]),1,1);
         morphs[4] = dom.createMorphAt(dom.childAt(element3, [1, 1]),1,1);
         morphs[5] = dom.createMorphAt(dom.childAt(element3, [3]),1,1);
+        morphs[6] = dom.createMorphAt(dom.childAt(element4, [1, 1]),1,1);
+        morphs[7] = dom.createMorphAt(element5,1,1);
+        morphs[8] = dom.createMorphAt(element5,5,5);
         return morphs;
       },
       statements: [
-        ["content","country",["loc",[null,[8,36],[8,47]]]],
-        ["block","aupac-control",[],["label","Country","mandatory",true,"errors",["subexpr","@mut",[["get","errors.country",["loc",[null,[12,67],[12,81]]]]],[],[]],"leftIcon","glyphicon glyphicon-search"],0,null,["loc",[null,[12,12],[18,30]]]],
-        ["content","employee.name",["loc",[null,[31,37],[31,54]]]],
-        ["block","aupac-control",[],["label","Employee","mandatory",true,"errors",["subexpr","@mut",[["get","errors.employee",["loc",[null,[35,68],[35,83]]]]],[],[]],"leftIcon","glyphicon glyphicon-search"],1,null,["loc",[null,[35,12],[41,30]]]],
-        ["content","task.name",["loc",[null,[53,33],[53,46]]]],
-        ["block","aupac-control",[],["label","Task","mandatory",true,"errors",["subexpr","@mut",[["get","errors.task",["loc",[null,[58,64],[58,75]]]]],[],[]],"leftIcon","glyphicon glyphicon-search"],2,null,["loc",[null,[58,12],[65,30]]]]
+        ["content","country",["loc",[null,[8,32],[8,43]]]],
+        ["block","aupac-control",[],["label","Country","mandatory",true,"errors",["subexpr","@mut",[["get","errors.country",["loc",[null,[12,63],[12,77]]]]],[],[]],"leftIcon","glyphicon glyphicon-search"],0,null,["loc",[null,[12,8],[18,26]]]],
+        ["content","country",["loc",[null,[28,36],[28,47]]]],
+        ["block","aupac-control",[],["label","Country","mandatory",true,"errors",["subexpr","@mut",[["get","errors.country",["loc",[null,[32,67],[32,81]]]]],[],[]],"leftIcon","glyphicon glyphicon-search"],1,null,["loc",[null,[32,12],[43,30]]]],
+        ["content","employee.name",["loc",[null,[54,37],[54,54]]]],
+        ["block","aupac-control",[],["label","Employee","mandatory",true,"errors",["subexpr","@mut",[["get","errors.employee",["loc",[null,[58,68],[58,83]]]]],[],[]],"leftIcon","glyphicon glyphicon-search"],2,null,["loc",[null,[58,12],[64,30]]]],
+        ["content","task.name",["loc",[null,[76,33],[76,46]]]],
+        ["inline","input",[],["type","checkbox","checked",["subexpr","@mut",[["get","isDisabled",["loc",[null,[81,44],[81,54]]]]],[],[]]],["loc",[null,[81,12],[81,56]]]],
+        ["block","aupac-control",[],["label","Task","mandatory",true,"errors",["subexpr","@mut",[["get","errors.task",["loc",[null,[82,64],[82,75]]]]],[],[]],"leftIcon","glyphicon glyphicon-search"],3,null,["loc",[null,[82,12],[90,30]]]]
       ],
       locals: [],
-      templates: [child0, child1, child2]
+      templates: [child0, child1, child2, child3]
+    };
+  }()));
+
+});
+define('dummy/templates/customised/footer', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    return {
+      meta: {
+        "revision": "Ember@1.13.5",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 85
+          }
+        },
+        "moduleName": "dummy/templates/customised/footer.hbs"
+      },
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","typeahead-footer");
+        var el2 = dom.createElement("h2");
+        dom.setAttribute(el2,"class","text-center");
+        var el3 = dom.createTextNode("I am a custom footer");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes() { return []; },
+      statements: [
+
+      ],
+      locals: [],
+      templates: []
+    };
+  }()));
+
+});
+define('dummy/templates/customised/header', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    return {
+      meta: {
+        "revision": "Ember@1.13.5",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 85
+          }
+        },
+        "moduleName": "dummy/templates/customised/header.hbs"
+      },
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","typeahead-header");
+        var el2 = dom.createElement("h2");
+        dom.setAttribute(el2,"class","text-center");
+        var el3 = dom.createTextNode("I am a custom header");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes() { return []; },
+      statements: [
+
+      ],
+      locals: [],
+      templates: []
+    };
+  }()));
+
+});
+define('dummy/templates/customised/not-found', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    return {
+      meta: {
+        "revision": "Ember@1.13.5",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 90
+          }
+        },
+        "moduleName": "dummy/templates/customised/not-found.hbs"
+      },
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","typeahead-not-found");
+        var el2 = dom.createElement("h2");
+        dom.setAttribute(el2,"class","text-center");
+        var el3 = dom.createTextNode("GRRRR nothing found :(");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes() { return []; },
+      statements: [
+
+      ],
+      locals: [],
+      templates: []
+    };
+  }()));
+
+});
+define('dummy/templates/customised/pending', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    return {
+      meta: {
+        "revision": "Ember@1.13.5",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 82
+          }
+        },
+        "moduleName": "dummy/templates/customised/pending.hbs"
+      },
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","typeahead-pending");
+        var el2 = dom.createElement("h2");
+        dom.setAttribute(el2,"class","text-center");
+        var el3 = dom.createTextNode("Be patient dude!");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes() { return []; },
+      statements: [
+
+      ],
+      locals: [],
+      templates: []
+    };
+  }()));
+
+});
+define('dummy/templates/customised/suggestion', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    return {
+      meta: {
+        "revision": "Ember@1.13.5",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 202
+          }
+        },
+        "moduleName": "dummy/templates/customised/suggestion.hbs"
+      },
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","typeahead-suggestion");
+        var el2 = dom.createElement("img");
+        dom.setAttribute(el2,"src","http://www.gravatar.com/avatar/0cf15665a9146ba852bf042b0652780a?s=200");
+        dom.setAttribute(el2,"style","width: 10%; height: 10%");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode(" - configure the suggestion as you wish.");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]),1,1);
+        return morphs;
+      },
+      statements: [
+        ["content","model",["loc",[null,[1,147],[1,156]]]]
+      ],
+      locals: [],
+      templates: []
     };
   }()));
 
@@ -895,28 +1255,28 @@ define('dummy/tests/controllers/application.jshint', function () {
 });
 define('dummy/tests/helpers/aupac-typeahead', ['exports', 'ember'], function (exports, Ember) {
 
-    'use strict';
+        'use strict';
 
-    exports['default'] = function () {
+        exports['default'] = function () {
 
-        /**
-         * Allows you to easily select an item from an ajax-search component.
-         *
-         * @param selector : jquery selector of the typeahead input element
-         * @param searchString : The search text
-         * @param suggestionIndex : The item to select from the drop down (starting at 1 for the first item)
-         */
-        Ember['default'].Test.registerHelper('aupacTypeaheadSearch', function (app, selector, searchString, suggestionIndex) {
+                /**
+                 * Allows you to easily select an item from an ajax-search component.
+                 *
+                 * @param selector : jquery selector of the typeahead input element
+                 * @param searchString : The search text
+                 * @param suggestionIndex : The item to select from the drop down (starting at 1 for the first item)
+                 */
+                Ember['default'].Test.registerHelper('aupacTypeaheadSearch', function (app, selector, searchString, suggestionIndex) {
 
-            $(selector).eq(0).val(searchString).trigger("input");
+                        $(selector).eq(0).val(searchString).trigger("input");
 
-            Ember['default'].run(function () {
-                click('.tt-suggestion:nth-child(' + suggestionIndex + ')');
-            });
+                        Ember['default'].run(function () {
+                                click('.tt-suggestion:nth-child(' + suggestionIndex + ')');
+                        });
 
-            return app.testHelpers.wait();
-        });
-    }
+                        return app.testHelpers.wait();
+                });
+        }
 
 });
 define('dummy/tests/helpers/resolver', ['exports', 'ember/resolver', 'dummy/config/environment'], function (exports, Resolver, config) {
@@ -1227,13 +1587,26 @@ define('dummy/tests/test-helper.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/aupac-ember-data-typeahead-test', ['ember-qunit'], function (ember_qunit) {
+define('dummy/tests/unit/components/aupac-ember-data-typeahead-test', ['ember-qunit', 'ember', 'ember-data', 'ember-aupac-mocks'], function (ember_qunit, Ember, DS, ember_aupac_mocks) {
 
   'use strict';
 
+  var mock = ember_aupac_mocks.Mocks.mock;
+  var mockFunction = ember_aupac_mocks.Mocks.mockFunction;
+  var verify = ember_aupac_mocks.Mocks.verify;
+  var when = ember_aupac_mocks.Mocks.when;
+  var empty = ember_aupac_mocks.Matchers.empty;
+  var emailAddress = ember_aupac_mocks.Matchers.emailAddress;
+  var greaterThan = ember_aupac_mocks.Matchers.greaterThan;
+  var everyItem = ember_aupac_mocks.Matchers.everyItem;
+  var hasSize = ember_aupac_mocks.Matchers.hasSize;
+  var even = ember_aupac_mocks.Matchers.even;
+  var lessThan = ember_aupac_mocks.Matchers.lessThan;
+  var either = ember_aupac_mocks.Matchers.either;
+
   ember_qunit.moduleForComponent('aupac-ember-data-typeahead', 'Unit | Component | aupac ember data typeahead', {
     // Specify the other units that are required for this test
-    // needs: ['component:foo', 'helper:bar'],
+    //needs: ['model:task'],
     unit: true
   });
 
@@ -1241,12 +1614,81 @@ define('dummy/tests/unit/components/aupac-ember-data-typeahead-test', ['ember-qu
     assert.expect(2);
 
     // Creates the component instance
-    var component = this.subject();
+    var component = this.subject({
+      modelClass: 'task'
+    });
     assert.equal(component._state, 'preRender');
 
     // Renders the component to the page
     this.render();
     assert.equal(component._state, 'inDOM');
+  });
+
+  /*
+  function getAsyncMock1() {
+
+    //model
+    const model = mock(DS.Model);
+    when(model).get('id').thenReturn(1);
+    when(model).get('id').thenReturn(1);
+    when(model).get('displayName').thenReturn('hello world');
+
+    //Fake out an {async : true} model using a promise
+    const mockResolver = mockFunction();
+    const promise = mock({
+      then(){},
+      get(){}
+    });
+    when(promise).then().thenReturn(model);
+    when(promise).get('id').thenReturn(1);
+
+    //var promise = new Ember.RSVP.Promise(function(resolve, reject){
+    //  // succeed
+    //  resolve(model);
+    //});
+
+    //ember-data store
+    const store = mock(DS.Store);
+    when(store).query('task',{}).thenReturn(Ember.A([]));
+    when(store).findRecord('task', 1).thenReturn(promise);
+
+    return {
+      store,
+      model : promise
+    };
+  }
+  test('you can pass an ember-data model as the selection', function(assert) {
+    assert.expect(1);
+
+    const mock = getAsyncMock1();
+
+    const component = this.subject({
+      modelClass: 'task',
+      selection: mock.model,
+      store: mock.store
+    });
+    this.render();
+    assert.equal(component.$().val(), 'hello world', 'should set the input value to the displayKey');
+  });
+  */
+
+  ember_qunit.test('you can pass a string as the selection', function (assert) {
+    assert.expect(1);
+    var model = 'hello world';
+    var mockStore = mock(DS['default'].Store);
+    when(mockStore).query().thenReturn({
+      then: function then() {
+        //Do nothing
+      }
+    });
+
+    var component = this.subject({
+      modelClass: 'task',
+      selection: model,
+      store: mockStore
+    });
+    this.render();
+    assert.equal(component.$().val(), 'hello world', 'should set the input value to the string');
   });
 
 });
@@ -1347,7 +1789,7 @@ catch(err) {
 if (runningTests) {
   require("dummy/tests/test-helper");
 } else {
-  require("dummy/app")["default"].create({"name":"ember-aupac-typeahead","version":"0.0.6"});
+  require("dummy/app")["default"].create({"name":"ember-aupac-typeahead","version":"2.0.0.87bdae00"});
 }
 
 /* jshint ignore:end */
