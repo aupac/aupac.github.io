@@ -142413,6 +142413,12 @@ define('ember-aupac-typeahead/components/aupac-ember-data-typeahead', ['exports'
     async: true, //@public
     queryKey: 'q', //@public
 
+    // @Override
+    suggestionTemplate: suggestionTemplate['default'],
+
+    //private
+    store: inject.service('store'),
+
     /**
      * @Override
      */
@@ -142422,13 +142428,6 @@ define('ember-aupac-typeahead/components/aupac-ember-data-typeahead', ['exports'
       return function (model) {
         return model.get(_this2.get('displayKey'));
       };
-    }),
-
-    /**
-     * @Override
-     */
-    compiledSuggestionTemplate: computed(function () {
-      return this.get('suggestionTemplate') || suggestionTemplate['default'];
     }),
 
     /**
@@ -142444,18 +142443,20 @@ define('ember-aupac-typeahead/components/aupac-ember-data-typeahead', ['exports'
           var displayKey = _this3.get('displayKey');
           var modelClass = _this3.get('modelClass');
           if (selection && selection.get('id')) {
-            _this3.get('store').findRecord(modelClass, selection.get('id')).then(function (model) {
-              _this3.get('_typeahead').typeahead('val', model.get(displayKey));
-            });
+            var item = _this3.get('store').peekRecord(modelClass, selection.get('id'));
+            if (isNone(item)) {
+              _this3.get('store').findRecord(modelClass, selection.get('id')).then(function (model) {
+                _this3.get('_typeahead').typeahead('val', model.get(displayKey));
+              });
+            } else {
+              _this3.get('_typeahead').typeahead('val', item.get(displayKey));
+            }
           } else {
             _this3.get('_typeahead').typeahead('val', '');
           }
         })();
       }
     },
-
-    //private
-    store: inject.service('store'),
 
     /**
      * @Override
@@ -142543,9 +142544,23 @@ define('ember-aupac-typeahead/components/aupac-typeahead', ['exports', 'ember', 
     async: false, //@public
     datasetName: '', //@public
 
+    //HtmlBars Templates
+    suggestionTemplate: suggestionTemplate['default'], //@public
+    notFoundTemplate: notFoundTemplate['default'], //@public
+    pendingTemplate: pendingTemplate['default'], //@public
+    headerTemplate: headerTemplate['default'], //@public
+    footerTemplate: footerTemplate['default'], //@public
+
+    //Private
+    _typeahead: null,
+
+    // shadow the passed-in `selection` to avoid
+    // leaking changes to it via a 2-way binding
+    _selection: computed.reads('selection'),
+
     /**
      * @public
-     * @param selection the item selected by the user
+     * @param selection - the item selected by the user
      * @returns {*}
      */
     display: function display(selection) {
@@ -142563,21 +142578,6 @@ define('ember-aupac-typeahead/components/aupac-typeahead', ['exports', 'ember', 
         this.get('_typeahead').typeahead('val', '');
       }
     },
-
-    //HtmlBars Templates
-
-    suggestionTemplate: null, //@public
-    notFoundTemplate: null, //@public
-    pendingTemplate: null, //@public
-    headerTemplate: null, //@public
-    footerTemplate: null, //@public
-
-    //Private
-    _typeahead: null,
-
-    // shadow the passed-in `selection` to avoid
-    // leaking changes to it via a 2-way binding
-    _selection: computed.reads('selection'),
 
     didInsertElement: function didInsertElement() {
       this._super.apply(this, arguments);
@@ -142614,21 +142614,21 @@ define('ember-aupac-typeahead/components/aupac-typeahead', ['exports', 'ember', 
           suggestion: function suggestion(model) {
             var item = Component.create({
               model: model,
-              layout: self.get('compiledSuggestionTemplate')
+              layout: self.get('suggestionTemplate')
             }).createElement();
             return item.element;
           },
           notFound: function notFound(query) {
             var item = Component.create({
               query: query,
-              layout: self.get('compiledNotFoundTemplate')
+              layout: self.get('notFoundTemplate')
             }).createElement();
             return item.element;
           },
           pending: function pending(query) {
             var item = Component.create({
               query: query,
-              layout: self.get('compiledPendingTemplate')
+              layout: self.get('pendingTemplate')
             }).createElement();
             return item.element;
           },
@@ -142636,7 +142636,7 @@ define('ember-aupac-typeahead/components/aupac-typeahead', ['exports', 'ember', 
             var item = Component.create({
               query: query,
               suggestions: suggestions,
-              layout: self.get('compiledHeaderTemplate')
+              layout: self.get('headerTemplate')
             }).createElement();
             return item.element;
           },
@@ -142644,7 +142644,7 @@ define('ember-aupac-typeahead/components/aupac-typeahead', ['exports', 'ember', 
             var item = Component.create({
               query: query,
               suggestions: suggestions,
-              layout: self.get('compiledFooterTemplate')
+              layout: self.get('footerTemplate')
             }).createElement();
             return item.element;
           }
@@ -142671,7 +142671,7 @@ define('ember-aupac-typeahead/components/aupac-typeahead', ['exports', 'ember', 
           var value = _this.get('_typeahead').typeahead('val'); //cache value
           _this.set('_selection', null);
           _this.sendAction('action', null);
-          _this.$().typeahead('val', value); //restore the text, thus allowing the user to make corrections
+          _this.setValue(value); //restore the text, thus allowing the user to make corrections
         }
       }));
 
@@ -142687,12 +142687,12 @@ define('ember-aupac-typeahead/components/aupac-typeahead', ['exports', 'ember', 
     },
 
     // Fix weird bug whereby changing the bound selection to null would not fire "selectionUpdated"
-    boundSelectionUpdated: observer('selection', function () {
-      var selection = this.get('selection');
-      if (isNone(selection)) {
-        this.set('_selection', null);
-      }
-    }),
+    //boundSelectionUpdated: observer('selection',function() {
+    //  const selection = this.get('selection');
+    //  if(isNone(selection)) {
+    //    this.set('_selection', null);
+    //  }
+    //}),
 
     selectionUpdated: observer('_selection', '_typeahead', function () {
       var selection = this.get('_selection');
@@ -142701,26 +142701,6 @@ define('ember-aupac-typeahead/components/aupac-typeahead', ['exports', 'ember', 
       } else {
         this.setValue(selection);
       }
-    }),
-
-    compiledSuggestionTemplate: computed(function () {
-      return this.get('suggestionTemplate') || suggestionTemplate['default'];
-    }),
-
-    compiledNotFoundTemplate: computed(function () {
-      return this.get('notFoundTemplate') || notFoundTemplate['default'];
-    }),
-
-    compiledPendingTemplate: computed(function () {
-      return this.get('pendingTemplate') || pendingTemplate['default'];
-    }),
-
-    compiledHeaderTemplate: computed(function () {
-      return this.get('headerTemplate') || headerTemplate['default'];
-    }),
-
-    compiledFooterTemplate: computed(function () {
-      return this.get('footerTemplate') || footerTemplate['default'];
     }),
 
     willDestroyElement: function willDestroyElement() {

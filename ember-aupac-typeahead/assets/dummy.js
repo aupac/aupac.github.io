@@ -67,6 +67,15 @@ define('dummy/controllers/application', ['exports', 'ember', 'ember-validations'
 
   exports['default'] = Ember['default'].Controller.extend(EmberValidations['default'], {
 
+    init: function init() {
+      var _this = this;
+
+      this._super.apply(this, arguments);
+      this.store.findRecord('task', 3).then(function (task) {
+        _this.set('task', task);
+      });
+    },
+
     //Country Search
     country: null,
     countrySource: function countrySource(query, syncResults /*, asyncResults*/) {
@@ -82,9 +91,6 @@ define('dummy/controllers/application', ['exports', 'ember', 'ember-validations'
 
     //Selection 2
     task: null,
-    initialTask: computed(function () {
-      return this.store.findRecord('task', 3);
-    }),
 
     isDisabled: false,
     suggestionTemplate: suggestionTemplate['default'],
@@ -92,6 +98,12 @@ define('dummy/controllers/application', ['exports', 'ember', 'ember-validations'
     footerTemplate: footerTemplate['default'],
     notFoundTemplate: notFoundTemplate['default'],
     pendingTemplate: pendingTemplate['default'],
+
+    actions: {
+      clearModel: function clearModel() {
+        this.set('task', null);
+      }
+    },
 
     validations: {
       country: {
@@ -679,11 +691,11 @@ define('dummy/templates/application', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 82,
+              "line": 83,
               "column": 12
             },
             "end": {
-              "line": 90,
+              "line": 91,
               "column": 12
             }
           },
@@ -708,7 +720,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
           return morphs;
         },
         statements: [
-          ["inline","aupac-ember-data-typeahead",[],["action",["subexpr","action",[["subexpr","mut",[["get","task",["loc",[null,[83,63],[83,67]]]]],[],["loc",[null,[83,58],[83,68]]]]],[],["loc",[null,[83,50],[83,69]]]],"selection",["subexpr","@mut",[["get","initialTask",["loc",[null,[84,24],[84,35]]]]],[],[]],"class","form-control","modelClass","task","placeholder","Type task...","disabled",["subexpr","@mut",[["get","isDisabled",["loc",[null,[88,23],[88,33]]]]],[],[]]],["loc",[null,[83,14],[89,16]]]]
+          ["inline","aupac-ember-data-typeahead",[],["action",["subexpr","action",[["subexpr","mut",[["get","task",["loc",[null,[84,63],[84,67]]]]],[],["loc",[null,[84,58],[84,68]]]]],[],["loc",[null,[84,50],[84,69]]]],"selection",["subexpr","@mut",[["get","task.displayName",["loc",[null,[85,24],[85,40]]]]],[],[]],"class","form-control","modelClass","task","placeholder","Type task...","disabled",["subexpr","@mut",[["get","isDisabled",["loc",[null,[89,23],[89,33]]]]],[],[]]],["loc",[null,[84,14],[90,16]]]]
         ],
         locals: [],
         templates: []
@@ -724,7 +736,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 100,
+            "line": 101,
             "column": 0
           }
         },
@@ -940,6 +952,13 @@ define('dummy/templates/application', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("br");
         dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n            ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("button");
+        dom.setAttribute(el5,"class","btn btn-default");
+        var el6 = dom.createTextNode("Clear Model");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n");
         dom.appendChild(el4, el5);
         var el5 = dom.createComment("");
@@ -967,7 +986,8 @@ define('dummy/templates/application', ['exports'], function (exports) {
         var element3 = dom.childAt(element0, [9, 3]);
         var element4 = dom.childAt(element0, [11, 3]);
         var element5 = dom.childAt(element4, [3]);
-        var morphs = new Array(9);
+        var element6 = dom.childAt(element5, [5]);
+        var morphs = new Array(10);
         morphs[0] = dom.createMorphAt(dom.childAt(element1, [1, 1]),1,1);
         morphs[1] = dom.createMorphAt(dom.childAt(element1, [3]),1,1);
         morphs[2] = dom.createMorphAt(dom.childAt(element2, [1, 1]),1,1);
@@ -976,7 +996,8 @@ define('dummy/templates/application', ['exports'], function (exports) {
         morphs[5] = dom.createMorphAt(dom.childAt(element3, [3]),1,1);
         morphs[6] = dom.createMorphAt(dom.childAt(element4, [1, 1]),1,1);
         morphs[7] = dom.createMorphAt(element5,1,1);
-        morphs[8] = dom.createMorphAt(element5,5,5);
+        morphs[8] = dom.createElementMorph(element6);
+        morphs[9] = dom.createMorphAt(element5,7,7);
         return morphs;
       },
       statements: [
@@ -988,7 +1009,8 @@ define('dummy/templates/application', ['exports'], function (exports) {
         ["block","aupac-control",[],["label","Employee","mandatory",true,"errors",["subexpr","@mut",[["get","errors.employee",["loc",[null,[58,68],[58,83]]]]],[],[]],"leftIcon","glyphicon glyphicon-search"],2,null,["loc",[null,[58,12],[64,30]]]],
         ["content","task.name",["loc",[null,[76,33],[76,46]]]],
         ["inline","input",[],["type","checkbox","checked",["subexpr","@mut",[["get","isDisabled",["loc",[null,[81,44],[81,54]]]]],[],[]]],["loc",[null,[81,12],[81,56]]]],
-        ["block","aupac-control",[],["label","Task","mandatory",true,"errors",["subexpr","@mut",[["get","errors.task",["loc",[null,[82,64],[82,75]]]]],[],[]],"leftIcon","glyphicon glyphicon-search"],3,null,["loc",[null,[82,12],[90,30]]]]
+        ["element","action",["clearModel"],[],["loc",[null,[82,44],[82,67]]]],
+        ["block","aupac-control",[],["label","Task","mandatory",true,"errors",["subexpr","@mut",[["get","errors.task",["loc",[null,[83,64],[83,75]]]]],[],[]],"leftIcon","glyphicon glyphicon-search"],3,null,["loc",[null,[83,12],[91,30]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3]
@@ -1789,7 +1811,7 @@ catch(err) {
 if (runningTests) {
   require("dummy/tests/test-helper");
 } else {
-  require("dummy/app")["default"].create({"name":"ember-aupac-typeahead","version":"2.0.0.87bdae00"});
+  require("dummy/app")["default"].create({"name":"ember-aupac-typeahead","version":"2.0.1"});
 }
 
 /* jshint ignore:end */
