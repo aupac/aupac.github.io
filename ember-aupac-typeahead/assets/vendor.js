@@ -142687,12 +142687,12 @@ define('ember-aupac-typeahead/components/aupac-typeahead', ['exports', 'ember', 
     },
 
     // Fix weird bug whereby changing the bound selection to null would not fire "selectionUpdated"
-    //boundSelectionUpdated: observer('selection',function() {
-    //  const selection = this.get('selection');
-    //  if(isNone(selection)) {
-    //    this.set('_selection', null);
-    //  }
-    //}),
+    boundSelectionUpdated: observer('selection', function () {
+      var selection = this.get('selection');
+      if (isNone(selection)) {
+        this.set('_selection', null);
+      }
+    }),
 
     selectionUpdated: observer('_selection', '_typeahead', function () {
       var selection = this.get('_selection');

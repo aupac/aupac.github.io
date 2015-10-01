@@ -1811,7 +1811,7 @@ catch(err) {
 if (runningTests) {
   require("dummy/tests/test-helper");
 } else {
-  require("dummy/app")["default"].create({"name":"ember-aupac-typeahead","version":"2.0.1"});
+  require("dummy/app")["default"].create({"name":"ember-aupac-typeahead","version":"2.0.2.303ab2ee"});
 }
 
 /* jshint ignore:end */
